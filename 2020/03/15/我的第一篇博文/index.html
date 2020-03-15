@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | redvelvest</title>
+  <title>我的第一篇博文 | redvelvest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="linux磁盘阵列(RAID)和逻辑卷管理器(LVM)使用总结前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,还有LVM逻辑卷要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,请看下文⬇">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2020/03/12/hello-world/index.html">
+<meta property="og:title" content="我的第一篇博文">
+<meta property="og:url" content="http://yoursite.com/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/index.html">
 <meta property="og:site_name" content="redvelvest">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="linux磁盘阵列(RAID)和逻辑卷管理器(LVM)使用总结前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,还有LVM逻辑卷要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,请看下文⬇">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-12T08:51:24.765Z">
-<meta property="article:modified_time" content="2020-03-15T03:47:33.272Z">
+<meta property="article:published_time" content="2020-03-15T02:11:25.000Z">
+<meta property="article:modified_time" content="2020-03-15T03:42:06.123Z">
 <meta property="article:author" content="irenecode">
+<meta property="article:tag" content="linux爱好者">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="redvelvest" type="application/atom+xml">
@@ -161,40 +162,42 @@
           </div>
           <div id="js-content" class="content-ll">
             
-<article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+<article id="post-我的第一篇博文" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      我的第一篇博文
     </h1>
   
 
         
-        <a href="/2020/03/12/hello-world/" class="archive-article-date">
-  	<time datetime="2020-03-12T08:51:24.765Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-12</time>
+        <a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" class="archive-article-date">
+  	<time datetime="2020-03-15T02:11:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <h2 id="linux磁盘阵列-RAID-和逻辑卷管理器-LVM-使用总结"><a href="#linux磁盘阵列-RAID-和逻辑卷管理器-LVM-使用总结" class="headerlink" title="linux磁盘阵列(RAID)和逻辑卷管理器(LVM)使用总结"></a>linux磁盘阵列(RAID)和逻辑卷管理器(LVM)使用总结</h2><h3 id="前言：磁盘阵列分为软件-硬件磁盘阵列-这里主要是讲软件磁盘阵列-还有LVM逻辑卷要知道在创建时步骤是什么-删除该如何删除等等-废话就不多讲了-理论与实践为主-请看下文⬇"><a href="#前言：磁盘阵列分为软件-硬件磁盘阵列-这里主要是讲软件磁盘阵列-还有LVM逻辑卷要知道在创建时步骤是什么-删除该如何删除等等-废话就不多讲了-理论与实践为主-请看下文⬇" class="headerlink" title="前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,还有LVM逻辑卷要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,请看下文⬇"></a>前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,还有LVM逻辑卷要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,请看下文⬇</h3><hr>
+<a id="more"></a>
+<blockquote>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=414706265&auto=0&height=66"></iframe>
+</blockquote>
+<h2 id="磁盘阵列RAID"><a href="#磁盘阵列RAID" class="headerlink" title="磁盘阵列RAID"></a>磁盘阵列RAID</h2><p>一.磁盘阵列(Redundant Arrays of Independent Disks，RAID),通过技术(软件或硬件)将多个较小的磁盘整合成为一个较大的磁盘设备,但是这个较大的磁盘设备并不只是存储而已,还具有数据保护的功能,RAID有几种级别,常见的分别有(RAID0,RAID1,RAID5,RAID6,RAID10,RAID50),选择不同的Raid级别整合之后,功能当然就会有所不同,而建立RAID命令其实很简单,一起来看看:</p>
+<blockquote>
+<p>mdadm  - -create  /dev/md[0-9] - -auto=yes - -level=[0,1,5,6] –chunk=NK –raid-devices=N –spare-devices=N /dev/sdc /dev/sdx</p>
+</blockquote>
+<h4 id="选项参数的意思"><a href="#选项参数的意思" class="headerlink" title="选项参数的意思:"></a>选项参数的意思:</h4><pre><code>--create或-C : 建立一个新的磁盘阵列
+--auto=yes : 决定建立后面接的软件磁盘阵列设备,即/dev/md0,/dev/md1等等
+--chunk或者-c : 决定这个设备的chunk大小,也可以当成stripe大小,一般为64K或512K
+--raid-devices或-n : 使用几个磁盘分区作为磁盘阵列的设备。 </code></pre><hr>
+<p>1.RAID 0(等量模式): 性能上最佳<br>    如果使用相同型号与容量的磁盘组成的话,效果上会很好。</p>
+<hr>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
       
 
       
@@ -228,6 +231,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">linux爱好者</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -278,7 +292,7 @@
         <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
         <p>扫一扫，分享到微信</p>
         <div class="wx-qrcode">
-            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/12/hello-world/" alt="微信分享二维码">
+            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" alt="微信分享二维码">
         </div>
     </div>
 
@@ -292,15 +306,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          我的第一篇博文
-        
-      </div>
-    </a>
   
+    <a href="/2020/03/12/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -325,7 +335,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux磁盘阵列-RAID-和逻辑卷管理器-LVM-使用总结"><span class="toc-number">1.</span> <span class="toc-text">linux磁盘阵列(RAID)和逻辑卷管理器(LVM)使用总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言：磁盘阵列分为软件-硬件磁盘阵列-这里主要是讲软件磁盘阵列-还有LVM逻辑卷要知道在创建时步骤是什么-删除该如何删除等等-废话就不多讲了-理论与实践为主-请看下文⬇"><span class="toc-number">1.1.</span> <span class="toc-text">前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,还有LVM逻辑卷要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,请看下文⬇</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘阵列RAID"><span class="toc-number">2.</span> <span class="toc-text">磁盘阵列RAID</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选项参数的意思"><span class="toc-number">2.0.1.</span> <span class="toc-text">选项参数的意思:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
                     </div>
                 </span>
             </div>
