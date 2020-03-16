@@ -184,7 +184,7 @@
       
         <h2 id="linux磁盘阵列-RAID-使用总结"><a href="#linux磁盘阵列-RAID-使用总结" class="headerlink" title="linux磁盘阵列(RAID)使用总结"></a>linux磁盘阵列(RAID)使用总结</h2><h3 id="前言：磁盘阵列分为软件-硬件磁盘阵列-这里主要是讲软件磁盘阵列-要知道在创建时步骤是什么-删除该如何删除等等-废话就不多讲了-理论与实践为主-⬇下方请点击展开全文"><a href="#前言：磁盘阵列分为软件-硬件磁盘阵列-这里主要是讲软件磁盘阵列-要知道在创建时步骤是什么-删除该如何删除等等-废话就不多讲了-理论与实践为主-⬇下方请点击展开全文" class="headerlink" title="前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文"></a>前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文</h3><a id="more"></a>
 <blockquote>
-<p>听音乐更配噢!<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe></p>
+<p>听音乐更配噢!<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe></p>
 </blockquote>
 <h2 id="磁盘阵列RAID"><a href="#磁盘阵列RAID" class="headerlink" title="磁盘阵列RAID"></a>磁盘阵列RAID</h2><p>磁盘阵列(Redundant Arrays of Independent Disks，RAID),通过技术(软件或硬件)将多个较小的磁盘整合成为一个较大的磁盘设备,但是这个较大的磁盘设备并不只是存储而已,还具有数据保护的功能,RAID有几种级别,常见的分别有(RAID0,RAID1,RAID5,RAID6,RAID10,RAID50),选择不同的Raid级别整合之后,功能当然就会有所不同,而建立RAID命令其实很简单,一起来看看:</p>
 <blockquote>
@@ -204,7 +204,7 @@
 <ul>
 <li><p>RAID 0(等量模式),性能最佳: </p>
 <ul>
-<li>这种模式如果使用相同型号与容量的磁盘组成的话,效果上会很好,接下来需要两块磁盘做RAID0,如:<tr>/dev/sdb和/dev/sdc,也可以是/dev/sdb1和/dev/sdb2</li>
+<li>这种模式如果使用相同型号与容量的磁盘组成的话,效果上会很好,接下来需要两块磁盘做RAID0,如:<tr>/dev/sdb和/dev/sdc,也可以是/dev/sdb1和/dev/sdb2</tr></li>
 <li><code>mdadm -C -v /dev/md0 -l 0 -n 2 /dev/sdb{1,2}</code> 之后会有array /dev/md0 started表示成功了,然后可以输入: <code>mdadm -DS</code>,可以查看本机上的所有RAID,如若查看详细信息:<code>mdadm -D /dev/md0</code>即可。</li>
 <li><code>mdadm -DS &gt; /etc/mdadm.conf</code> 生成配置文件,这一步主要是你在停止RAID的之后再打开时,是要读取配置文件的,所以避免掉坑。</li>
 <li><code>mkfs.xfs /dev/md0</code> 这里你可以格式成其他文件系统如ext4就为mkfs.ext4。</li>
@@ -498,6 +498,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">have a nice day</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">linux爱好者</a>
