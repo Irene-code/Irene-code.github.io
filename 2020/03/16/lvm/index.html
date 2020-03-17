@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | reveluv</title>
+  <title>逻辑卷管理器LVM | reveluv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="reveluv">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="前言:LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑卷管理器LVM">
+<meta property="og:url" content="http://yoursite.com/2020/03/16/lvm/index.html">
 <meta property="og:site_name" content="reveluv">
+<meta property="og:description" content="前言:LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-16T01:42:13.000Z">
+<meta property="article:modified_time" content="2020-03-17T05:34:48.389Z">
 <meta property="article:author" content="irenecode">
 <meta name="twitter:card" content="summary">
   
@@ -157,151 +161,240 @@
           </div>
           <div id="js-content" class="content-ll">
             
+<article id="post-lvm" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      逻辑卷管理器LVM
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/16/lvm/" class="archive-article-date">
+
+        
+        <a href="/2020/03/16/lvm/" class="archive-article-date">
   	<time datetime="2020-03-16T01:42:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/16/lvm/">逻辑卷管理器LVM</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h2><pre><code>LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。</code></pre><a id="more"></a>
+<blockquote>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=414706265&auto=0&height=66"></iframe>
+</blockquote>
+<h3 id="PV-PE-VG-LV的意义"><a href="#PV-PE-VG-LV的意义" class="headerlink" title="PV,PE,VG,LV的意义:"></a>PV,PE,VG,LV的意义:</h3><pre><code>1. 物理卷(Physical Volume, PV)：就是我们实际的分区, 通过pvcreate命令将它转成LVM最底层的物理卷,这样就可以使用这些PV了
+2. 卷组(Volume Group, VG)：刚前言部分所讲的大磁盘就是卷组,它是将许多的PV整合成这个VG
+3. 物理扩展块(Physical Extent, PE)： LVM默认使用4MB的PE数据块,PE是整个LVM最小的存储单位,我们的文件数据都是借由写入PE来完成的,可以说有点像文件系统里面的block大小,所以调整PE会影响到LVM的最大容量
+4. 逻辑卷(Logical Volume,LV)：在最后VG还得切成LV,然后格式化之后,挂载就能用了,至于使LVM弹性修改文件系统容量,就是将PE加到LV中,要减少容量,反之即可</code></pre><h3 id="PV操作阶段"><a href="#PV操作阶段" class="headerlink" title="PV操作阶段:"></a>PV操作阶段:</h3><pre><code>首先用fdisk或gdisk分区,我这里使用gdisk来分区,并且把linux file system改成8E00,不改也没问题的
+gdisk -l /dev/sdb 查看分区情况
+gdisk /dev/sdb 分区
+我的分区是/dev/sdb1、2、3、4
 
-        <div class="article-info info-on-right">
-          
-          
+创建PV,使用pvcreate即可,一些命令如下:
+* pvcreate：将物理分区建立成为PV
+* pvscan：查找目前系统里面任何具有PV的磁盘
+* pvdisplay: 显示出目前系统上面的PV状态
+* pvremove: 将PV属性删除,使该分区不具有PV属性</code></pre><ul>
+<li><code>pvcreate /dev/sdb{1,2,3,4}</code></li>
+<li><code>pvscan</code></li>
+<li><code>pvdisplay /dev/sdb1</code></li>
+</ul>
+<h3 id="VG操作阶段"><a href="#VG操作阶段" class="headerlink" title="VG操作阶段:"></a>VG操作阶段:</h3><pre><code>VG命令:
+* vgcreate: 创建VG的命令
+* vgscan: 查找系统上面是否存在VG
+* vgdisplay: 显示目前系统上面的VG状态
+* vgextend: 在VG内增加额外的PV
+* vgreduce: 在VG内删除PV
+* vgchange: 设置VG是否启动
+* vgremove: 删除一个VG</code></pre><ul>
+<li><code>vgcreate -s 16M irenevg /dev/sdb{1,2,3}</code> 让sdb1,2,3创建成为VG,名称是irenevg(自定义名称),指定PV为16M</li>
+<li><code>vgextend irenevg /dev/sdb4</code>如果你想增加VG的容量就这么操作,又可以拿新的分区创建好PV之后加进来,就可以不断的扩容。</li>
+</ul>
+<h3 id="LV操作阶段"><a href="#LV操作阶段" class="headerlink" title="LV操作阶段"></a>LV操作阶段</h3><pre><code>创建完VG之后就是建立LV了,命令跟VG,PV都一样的,只是把vg或pv改成lv
+如：lvcreate 建立LV
+    lvresize 这个是对LV进行容量大小的调整</code></pre><ul>
+<li><code>lvcreate -L 2G -n irenelv irenevg</code> 将irenevg分2G给irenelv,或者是<code>lvcreate -l 128 -n irenelv irenevg</code>，(-L是后面是容量,单位有M,G,T)(-l后面是PE的个数,因为把PV大小设为了16M,所以16*128=2048,就是2G了)</li>
+<li><code>mkfs.xfs /dev/irenevg/irenelv</code> 格式化</li>
+<li><code>mkdir /mnt/lvm</code>创建挂载点</li>
+<li><code>mount /dev/irenevg/irenelv /mnt/lvm</code>挂载之后就可以使用了喔     </li>
+</ul>
+<blockquote>
+<p>放大LV容量<br>    前面已经说了VG怎么加大容量,而LV该如何从VG里分容量给自己呢?<br>    首先查看VG所剩的Free PE,就是剩余容量</p>
+</blockquote>
+<ul>
+<li><code>vgdisplay irenevg</code></li>
+<li><code>lvresize -L +500M /dev/irenevg/irenelv</code>这样放大LV,加了500M进去</li>
+<li><code>lvscan</code>可以看到/dev/irenevg/irenelv从2G变成了2.5G</li>
+<li><code>xfs_growfs /mnt/lvm</code>加大lv容量,但挂载的文件系统容量并没变,这一步是关键,执行之后再查看就会发现容量增加了,最后LVM逻辑卷管理器就做完了</li>
+</ul>
+<h3 id="使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><a href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率" class="headerlink" title="使用LVM thin Volume使LVM动态自动调整磁盘使用率"></a>使用LVM thin Volume使LVM动态自动调整磁盘使用率</h3><pre><code>这个其实是拿来骗人的,因为你有个磁盘是3TB,但是未来会用到5TB,但是你至少接下来这一段时间是还没办法超过3TB,达到5TB,又不能让用户知道只有3TB,所以LVM thin Volume就是调整到5TB,看着是5TB,实际上能用的只有3TB
+概念就是:建立一个可以实用实取的,用多少容量才分配实际写入多少容量的磁盘容量存储池,然后再由存储池产生一个指定要固定容量大小的lv设备
+因此实际写入3TB容量的存储池,再产生一个5TB的LV设备,实际只能用到3TB懂了吧,感觉这就是障眼法,唬人还可以</code></pre><ol>
+<li><code>lvcreate -L 1G -T irenevg/irenepool</code>创建thin pool设备</li>
+<li><code>lvdisplay /dev/irenevg/irenepool</code>查看,或者<code>lvs irenevg</code></li>
+<li><code>lvcreate -V 20G -T irenevg/irenepool -n irenethin1</code>建立20G的irenethin1,必须要链接到irenepool这个地址池,之后lvs irenevg就可以看到20G的irenethin1这个设备</li>
+<li><code>mkfs.xfs /dev/irenevg/irenethink1</code></li>
+<li><code>mkdir /mnt/thin</code></li>
+<li><code>mount /dev/irenevg/irenethink1 /mnt/thin</code>之后就可以使用了,可以用<code>df -Th /mnt/thin</code>看下容量,但是实际只能用的还是刚写进地址池的1G</li>
+</ol>
+<h3 id="LVM的LV磁盘快照"><a href="#LVM的LV磁盘快照" class="headerlink" title="LVM的LV磁盘快照"></a>LVM的LV磁盘快照</h3><pre><code>快照就是将当时的系统信息记录下来，未来有任何数据修改,则原始数据会被搬移到快照区</code></pre><ol>
+<li><code>vgdisplay irenevg</code>查看还有多少剩余容量,我这里只剩25PE</li>
+<li><code>lvcreate -s -l 25 -n irenesnap /dev/irenevg/irenelv</code>  把剩下的PE都给快照区了</li>
+<li><code>mkdir /mnt/snap</code></li>
+<li><code>mount -o nouuid /dev/irenevg/irenesnap /mnt/snap</code>让文件系统忽略相同UUID，挂载到/mnt/snap</li>
+<li>你可以复制一些目录到lv挂载目录,如我的在/mnt/lvm,cp一些文件或目录,然后删除一些,查看/mnt/snap会发现删除的哪些都在快照区</li>
+<li><code>xfsdump -l 0 -L lvm -M lvm -f /root/lvm.dump /mnt/snap</code>把快照区挂载点里面的文件或目录都备份到了/root/lvm.dump,如果想还原/mnt/lvm,就用xfsrestore恢复</li>
+</ol>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+    <div class="share-btn share-icons tooltip-left">
+        <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+            <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+        </div>
+    </div>
+
+    <div class="page-modal wx-share js-wx-box">
+        <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+        <p>扫一扫，分享到微信</p>
+        <div class="wx-qrcode">
+            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/16/lvm/" alt="微信分享二维码">
+        </div>
+    </div>
+
+    <div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" class="archive-article-date">
-  	<time datetime="2020-03-15T02:11:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第一篇博文</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/">第一篇博文</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">linux爱好者</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PV-PE-VG-LV的意义"><span class="toc-number">1.1.</span> <span class="toc-text">PV,PE,VG,LV的意义:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PV操作阶段"><span class="toc-number">1.2.</span> <span class="toc-text">PV操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VG操作阶段"><span class="toc-number">1.3.</span> <span class="toc-text">VG操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LV操作阶段"><span class="toc-number">1.4.</span> <span class="toc-text">LV操作阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><span class="toc-number">1.5.</span> <span class="toc-text">使用LVM thin Volume使LVM动态自动调整磁盘使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LVM的LV磁盘快照"><span class="toc-number">1.6.</span> <span class="toc-text">LVM的LV磁盘快照</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/12/hello-world/" class="archive-article-date">
-  	<time datetime="2020-03-12T08:51:24.765Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-12</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/12/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/12/welcome/" class="archive-article-date">
-  	<time datetime="2020-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/12/welcome/">welcome</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">have a nice day</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -328,8 +421,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
