@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>linux磁盘阵列(RAID) | reveluv</title>
+  <title>Tag: LVM使用 | reveluv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文">
-<meta property="og:type" content="article">
-<meta property="og:title" content="linux磁盘阵列(RAID)">
-<meta property="og:url" content="http://yoursite.com/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="reveluv">
+<meta property="og:url" content="http://yoursite.com/tags/LVM%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="reveluv">
-<meta property="og:description" content="前言：磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-15T02:11:25.000Z">
-<meta property="article:modified_time" content="2020-03-17T11:50:53.024Z">
 <meta property="article:author" content="irenecode">
-<meta property="article:tag" content="linux爱好者">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="reveluv" type="application/atom+xml">
@@ -162,257 +157,59 @@
           </div>
           <div id="js-content" class="content-ll">
             
-<article id="post-我的第一篇博文" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 class="article-title" itemprop="name">
-      linux磁盘阵列(RAID)
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/03/16/lvm/" class="archive-article-date">
+  	<time datetime="2020-03-16T01:42:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-16</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/03/16/lvm/">逻辑卷管理器LVM</a>
     </h1>
   
 
-        
-        <a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" class="archive-article-date">
-  	<time datetime="2020-03-15T02:11:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><pre><code>磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文</code></pre><a id="more"></a>
-<blockquote>
-<p>听音乐更配噢!<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe></p>
-</blockquote>
-<h2 id="磁盘阵列RAID"><a href="#磁盘阵列RAID" class="headerlink" title="磁盘阵列RAID"></a>磁盘阵列RAID</h2><p>磁盘阵列(Redundant Arrays of Independent Disks，RAID),通过技术(软件或硬件)将多个较小的磁盘整合成为一个较大的磁盘设备,但是这个较大的磁盘设备并不只是存储而已,还具有数据保护的功能,RAID有几种级别,常见的分别有(RAID0,RAID1,RAID5,RAID6,RAID10,RAID50),选择不同的Raid级别整合之后,功能当然就会有所不同,而建立RAID命令其实很简单,一起来看看:</p>
-<blockquote>
-<p><code>mdadm  - -create  /dev/md[0-9] - -auto=yes - -level=[0,1,5,6] - -chunk=NK - -raid-devices=N - -spare-devices=N /dev/sdc /dev/sdx</code></p>
-</blockquote>
-<h4 id="选项参数的意思"><a href="#选项参数的意思" class="headerlink" title="选项参数的意思:"></a>选项参数的意思:</h4><pre><code>注意:命令参数全写前面是--,简写是一个-,中间没有空格
---create或-C : 建立一个新的磁盘阵列
---auto=yes : 决定建立后面接的软件磁盘阵列设备,即/dev/md0,/dev/md1等等
---chunk或者-c : 决定这个设备的chunk大小,也可以当成stripe大小,一般为64K或512K
---raid-devices或-n : 使用几个磁盘分区作为磁盘阵列的设备 
---spare-devices或-x : 使用几个磁盘设备作为备用设备
---level=[0,1,5,6,10] : 设置这组磁盘阵列的级别
---detail或-D : 后面所接的那个磁盘阵列设备的详细信息 
---scan或-s : 扫描配置文件/proc/mdstat,得到阵列缺失信息
---add或-a : 添加设备到阵列
--v : 显示详细信息</code></pre><hr>
-<ul>
-<li><p>RAID 0(等量模式),性能最佳: </p>
-<ul>
-<li>这种模式如果使用相同型号与容量的磁盘组成的话,效果上会很好,接下来需要两块磁盘做RAID0,如:<tr>/dev/sdb和/dev/sdc,也可以是/dev/sdb1和/dev/sdb2</tr></li>
-<li><code>mdadm -C -v /dev/md0 -l 0 -n 2 /dev/sdb{1,2}</code> 之后会有array /dev/md0 started表示成功了,然后可以输入: <code>mdadm -DS</code>,可以查看本机上的所有RAID,如若查看详细信息:<code>mdadm -D /dev/md0</code>即可。</li>
-<li><code>mdadm -DS &gt; /etc/mdadm.conf</code> 生成配置文件,这一步主要是你在停止RAID的之后再打开时,是要读取配置文件的,所以避免掉坑。</li>
-<li><code>mkfs.xfs /dev/md0</code> 这里你可以格式成其他文件系统如ext4就为mkfs.ext4。</li>
-<li><code>mkdir /raid0</code> 创建挂载目录,没啥好说,目录名自定义即可。</li>
-<li><code>mount /dev/md0 /raid0</code> 把磁盘阵列挂载到目录上,就可以使用了,用<code>df -h /raid0</code>查看。</li>
-<li><code>blkid /dev/md0</code>然后找到UUID并且写到/etc/fstab下面,如<code>&quot;UUID=5bda0872-c4a2-85ad-a48f-5621d8zad001 /raid0 xfs defaults 0 0</code></li>
-</ul>
-</li>
-<li><p>RAID 1(镜像模式, mirror),完整备份:</p>
-<ul>
-<li><code>mdadm -C -v /dev/md1 -l 1 -n 2 -x 1 /dev/sd[c,d,e]</code></li>
-<li><code>mdadm -Dsv &gt; /etc/mdadm.conf</code></li>
-<li><code>mkfs.xfs /dev/md1</code></li>
-<li><code>mkdir /raid1 &amp;&amp; mount /dev/md1 /raid1</code></li>
-<li><code>mdadm /dev/md1 -f /dev/sdc</code>模拟/dev/sdc出错,看备份盘是否会顶替继续工作,当你使用<code>mdadm -D /dev/md1</code>会发现出错磁盘已经被备份磁盘替换了,热备份的操作,是不是觉得会方便很多,至少还可以正常继续用 </li>
-<li><code>mdadm -r /dev/md1 /dev/sdc</code>移除掉出错盘,同样<code>mdadm -a /dev/md1 /dev/sdf</code>新加块热备盘</li>
-</ul>
-</li>
-<li><p>RAID 5(性能与数据备份的均衡考虑):</p>
-<ul>
-<li>首先呢,我们准备5个分区,可以使用gdisk来分区,如<code>gdisk /dev/sdb</code>按n新加分区,具体操作不多说了,最后分区为:/dev/sdb5,/dev/sdb6,/dev/sdb7,/dev/sdb8,/dev/sdb9</li>
-<li><code>mdadm -C /dev/md0 --auto=yes -l=5 -c=256K -n=4 -x=1 /dev/sdb{5..9}</code>创建RAID5之后,<code>mdadm -D /dev/md0</code>查看信息</li>
-<li><code>cat /proc/mdstat</code>可以使用此文件来查看系统软件磁盘阵列的情况</li>
-<li><code>mkfs.xfs -f -d su=256K,sw=3 -r extsize=768K /dev/md0</code>纳闷后面参数是什么对吧,因为chunk容量为256K,所以su=256K,而共有4块组成RAID5,RAID5它的总容量是整体减去一块磁盘或分区,而热备份盘不算上,所以(4-1=3),则sw=3,然后这两项计算数据宽度为:256K*3=768K</li>
-<li><code>mkdir /raid5 &amp;&amp; mount /dev/md0 /raid5</code>就可以使用了</li>
-<li><code>mdadm - -mange /dev/md[0-9] [-a 设备] [-r 设备] [-f 设备]</code>跟前文同样的操作,都可以</li>
-<li><code>mdadm - -mange /dev/md0 -f /dev/sdb7</code>同样删除<code>mdadm - -mange /dev/md0 -r /dev/sdb7</code>增加<code>mdadm - -mange /dev/md0 -a /dev/sdb7</code></li>
-<li><code>mdadm -Dsv &gt; /etc/mdadm.conf</code>停止md0磁盘阵列前,一定要注意数据已经同步到/etc/mdadm.conf,<code>mdadm -D /dev/md0</code>出现resync则同步完成,使用<code>mdadm -S /dev/md0</code>停止,使用<code>mdadm -As</code>激活</li>
-<li><code>mdadm -G /dev/md0 -n 5 -c 256K</code>可以扩展RAID5,使它可用磁盘数量为5块, <code>mdadm -Dsv &gt; /etc/mdadm.conf</code>保存配置文件，服务器启动时自动加载</li>
-<li>1.第一种删除RAID方法: <code>umount /raid0</code>,如果有写进/etc/fstab,把哪一行删了,然后覆盖RAID的metadata和superblock, <code>dd if=/dev/zero of=/dev/md0 bs=1M count=50</code>, <code>mdadm -S /dev/md0</code>, 过来就把磁盘或分区覆盖一下,<code>dd if=/dev/zero of=/dev/sdb5 bs=1M count=10; dd if=/dev/zero of=/dev/sdb6 bs=1M count=10; d if=/dev/zero of=/dev/sdb7 bs=1M count=10; d if=/dev/zero of=/dev/sdb8 bs=1M count=10; d if=/dev/zero of=/dev/sdb9 bs=1M count=10</code>,就行了看了<code>cat /proc/mdstat</code>会发现不存在了</li>
-<li>2.第一种删除RAID方法: <code>umount /dev/md0 /raid0</code>, <code>mdadm -Ss</code> 停止 raid 设备, <code>rm -rf /etc/mdadm.conf</code> 删除 raid 配置文件, <code>mdadm --zero-superblock /dev/sdb5</code>清除物理磁盘中的 raid 标识,一个个清除完就行了</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
-<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
-</blockquote>
-<ul>
-<li>前文如果出现错别字或者有错误的地方,还望谅解,在此感谢。</li>
-</ul>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/img/weixin.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">linux爱好者</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">LVM使用</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-    <div class="share-btn share-icons tooltip-left">
-        <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-            <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-        </div>
-    </div>
-
-    <div class="page-modal wx-share js-wx-box">
-        <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-        <p>扫一扫，分享到微信</p>
-        <div class="wx-qrcode">
-            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" alt="微信分享二维码">
-        </div>
-    </div>
-
-    <div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/03/16/lvm/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          逻辑卷管理器LVM
-        
-      </div>
-    </a>
   
   
-    <a href="/2020/03/12/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘阵列RAID"><span class="toc-number">2.</span> <span class="toc-text">磁盘阵列RAID</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选项参数的意思"><span class="toc-number">2.0.1.</span> <span class="toc-text">选项参数的意思:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -439,9 +236,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

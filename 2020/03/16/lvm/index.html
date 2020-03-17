@@ -16,8 +16,9 @@
 <meta property="og:description" content="前言:LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-16T01:42:13.000Z">
-<meta property="article:modified_time" content="2020-03-17T05:34:48.389Z">
+<meta property="article:modified_time" content="2020-03-17T12:13:39.558Z">
 <meta property="article:author" content="irenecode">
+<meta property="article:tag" content="LVM使用">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="reveluv" type="application/atom+xml">
@@ -248,6 +249,39 @@ gdisk /dev/sdb 分区
 <li>你可以复制一些目录到lv挂载目录,如我的在/mnt/lvm,cp一些文件或目录,然后删除一些,查看/mnt/snap会发现删除的哪些都在快照区</li>
 <li><code>xfsdump -l 0 -L lvm -M lvm -f /root/lvm.dump /mnt/snap</code>把快照区挂载点里面的文件或目录都备份到了/root/lvm.dump,如果想还原/mnt/lvm,就用xfsrestore恢复</li>
 </ol>
+<h3 id="LVM的删除"><a href="#LVM的删除" class="headerlink" title="LVM的删除"></a>LVM的删除</h3><pre><code>* 先卸载系统上面的LVM文件系统(快照和所有的LV)
+* 使用lvremove删除掉LV
+* 使用vgchange -a n VGname 使VG不具有Active标志
+* 使用vgremove删除VG
+* 使用pvremove删除PV
+* 如果改了系统id就修改回来</code></pre><ol>
+<li><code>umount /mnt/lvm /mnt/thin /mnt/snap</code></li>
+<li><code>lvs irenevg</code></li>
+<li><code>lvremove /dev/irenevg/irenethin1 /dev/irenevg/irenepool</code></li>
+<li><code>lvremove /dev/irenevg/irenelv</code></li>
+<li><code>vgchange -a n irenevg</code></li>
+<li><code>vgremove irenevg</code></li>
+<li><code>pvremove /dev/sdb{1,2,3,4}</code></li>
+<li><code>gdisk /dev/sdb</code> 把8E00改回8300,就完成了,如果没做这一步就不用了</li>
+</ol>
+<h3 id="使用SSM工具创建可动态扩容的存储池"><a href="#使用SSM工具创建可动态扩容的存储池" class="headerlink" title="使用SSM工具创建可动态扩容的存储池"></a>使用SSM工具创建可动态扩容的存储池</h3><ol>
+<li><code>yum -y install system-storage-manager</code>首先安装ssm工具</li>
+<li><code>ssm list dev</code>查看磁盘信息</li>
+<li><code>ssm list pool</code>存储池的信息</li>
+<li><code>mkdir /mnt/ssm</code></li>
+<li><code>ssm create -s 1G -n ssmlv --fstype xfs -p ssmvg /dev/sdb{1,2,3,4} /mnt/ssm</code> 意思是:ssm create -s lv大小 -n lv名称 –fstype lv文件系统类型 -p 卷组名 设备 挂载点</li>
+<li><code>ssm add -p ssmvg /dev/sdb5</code>将物理磁盘添加到卷组中</li>
+<li><code>ssm resize -s +500M /dev/ssmvg/ssmlv</code>扩大LVM卷的容量</li>
+<li><code>ssm snapshot /dev/ssmvg/ssmlv</code>对LVM卷的快照功能</li>
+<li><code>ssm remove /dev/ssmvg/ssmlv</code>删除LVM卷</li>
+<li><code>ssm remove ssmvg</code>删除卷组<blockquote>
+<p>更多的用法就不详细讲了,可以自行查阅资料来补充</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
+</blockquote>
+</li>
+</ol>
 
       
 
@@ -282,6 +316,17 @@ gdisk /dev/sdb 分区
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">LVM使用</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -348,7 +393,7 @@ gdisk /dev/sdb 分区
   
   
     <a href="/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">linux磁盘阵列(RAID)使用总结</div>
+      <div class="article-nav-title">linux磁盘阵列(RAID)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -375,7 +420,7 @@ gdisk /dev/sdb 分区
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PV-PE-VG-LV的意义"><span class="toc-number">1.1.</span> <span class="toc-text">PV,PE,VG,LV的意义:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PV操作阶段"><span class="toc-number">1.2.</span> <span class="toc-text">PV操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VG操作阶段"><span class="toc-number">1.3.</span> <span class="toc-text">VG操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LV操作阶段"><span class="toc-number">1.4.</span> <span class="toc-text">LV操作阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><span class="toc-number">1.5.</span> <span class="toc-text">使用LVM thin Volume使LVM动态自动调整磁盘使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LVM的LV磁盘快照"><span class="toc-number">1.6.</span> <span class="toc-text">LVM的LV磁盘快照</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PV-PE-VG-LV的意义"><span class="toc-number">1.1.</span> <span class="toc-text">PV,PE,VG,LV的意义:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PV操作阶段"><span class="toc-number">1.2.</span> <span class="toc-text">PV操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VG操作阶段"><span class="toc-number">1.3.</span> <span class="toc-text">VG操作阶段:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LV操作阶段"><span class="toc-number">1.4.</span> <span class="toc-text">LV操作阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><span class="toc-number">1.5.</span> <span class="toc-text">使用LVM thin Volume使LVM动态自动调整磁盘使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LVM的LV磁盘快照"><span class="toc-number">1.6.</span> <span class="toc-text">LVM的LV磁盘快照</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LVM的删除"><span class="toc-number">1.7.</span> <span class="toc-text">LVM的删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用SSM工具创建可动态扩容的存储池"><span class="toc-number">1.8.</span> <span class="toc-text">使用SSM工具创建可动态扩容的存储池</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">2.</span> <span class="toc-text">参考文献</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -489,6 +534,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">LVM使用</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">have a nice day</a>
