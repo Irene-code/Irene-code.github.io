@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>welcome | reveluv</title>
+  <title>DenyHosts使用 | reveluv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="坚定自我">
+  <meta name="description" content="DenyHosts简介DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到&#x2F;etc&#x2F;hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是&#x2F;var&#x2F;log&#x2F;secure,它也是由python编写的程序软件。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="welcome">
-<meta property="og:url" content="http://yoursite.com/2020/03/12/welcome/index.html">
+<meta property="og:title" content="DenyHosts使用">
+<meta property="og:url" content="http://yoursite.com/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="reveluv">
-<meta property="og:description" content="坚定自我">
+<meta property="og:description" content="DenyHosts简介DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到&#x2F;etc&#x2F;hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是&#x2F;var&#x2F;log&#x2F;secure,它也是由python编写的程序软件。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-16T07:59:40.198Z">
+<meta property="article:published_time" content="2020-03-17T10:11:11.000Z">
+<meta property="article:modified_time" content="2020-03-21T11:19:43.733Z">
 <meta property="article:author" content="irenecode">
-<meta property="article:tag" content="have a nice day">
+<meta property="article:tag" content="安全防范">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="reveluv" type="application/atom+xml">
@@ -162,34 +162,58 @@
           </div>
           <div id="js-content" class="content-ll">
             
-    <i class="fa fa-thumb-tack"></i>
-    <font color=7D26CD>置顶</font>
-    <span class="post-meta-divider">|</span>
-  
-<article id="post-welcome" class="article article-type-post " itemscope itemprop="blogPost">
+<article id="post-DenyHosts使用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      welcome
+      DenyHosts使用
     </h1>
   
 
         
-        <a href="/2020/03/12/welcome/" class="archive-article-date">
-  	<time datetime="2020-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-12</time>
+        <a href="/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2020-03-17T10:11:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="虚怀若竹-清气若兰"><a href="#虚怀若竹-清气若兰" class="headerlink" title="虚怀若竹 清气若兰"></a><center><font color="#008000"><strong>虚怀若竹 清气若兰</strong></font></center></h2><blockquote>
-<center><font color="#FF69B4" size="6">echo</font> <font color="#87CEFA" size="7">"感谢到来"</font></center>
+        <h2 id="DenyHosts简介"><a href="#DenyHosts简介" class="headerlink" title="DenyHosts简介"></a>DenyHosts简介</h2><pre><code>DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到/etc/hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是/var/log/secure,它也是由python编写的程序软件。</code></pre><a id="more"></a>
+
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><blockquote>
+<p><a href="https://sourceforge.net/projects/denyhosts/files/" target="_blank" rel="noopener">https://sourceforge.net/projects/denyhosts/files/</a></p>
+<blockquote>
+<p>下载之后上传到linux上</p>
 </blockquote>
-<h4 id="Do-one-thing-at-a-time-and-do-well"><a href="#Do-one-thing-at-a-time-and-do-well" class="headerlink" title="Do one thing at a time, and do well"></a><center><strong>Do one thing at a time, and do well</strong></center></h4>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><code>tar -zxvf DenyHosts-2.6.tar.gz</code> 解压 </li>
+<li><code>cd DenyHosts-2.6.tar.gz</code> 进到目录里安装</li>
+<li><code>python setup.py install</code> 安装</li>
+<li><code>cd /usr/share/denyhosts/</code> 默认安装在这里</li>
+<li><code>cp denyhosts.cfg-dist denyhosts.cfg</code> 配置文件 </li>
+<li><code>cp daemon-control-dist daemon-control</code> 这个是启动程序</li>
+<li><code>chown root daemon-control</code> 把所有者改为root</li>
+<li><code>chmod 700 daemon-control</code> 修改权限</li>
+<li><code>ln -s /usr/share/denyhosts/daemon-control /etc/init.d</code> 建立软连接</li>
+<li><code>/etc/init.d/daemon-control start</code> 启动denyhosts程序</li>
+<li><code>chkconfig daemon-control on</code> 设为开机自启</li>
+</ol>
+<h3 id="编辑DenyHosts配置文件"><a href="#编辑DenyHosts配置文件" class="headerlink" title="编辑DenyHosts配置文件"></a>编辑DenyHosts配置文件</h3><p><code>vim /usr/share/denyhosts/denyhosts.cfg</code></p>
+<ul>
+<li>HOSTS_DENY = /etc/hosts.deny  这个控制用户登录的文件</li>
+<li>PURGE_DENY = 30m 意思是过多后才清除已经禁止的,这里是30分钟</li>
+<li>DENY_THRESHOLD_INVALID = 1 允许无效用户失败次数</li>
+<li>DENY_THRESHOLD_VALID = 3 允许普通用户登录失败的次数</li>
+<li>DENY_THRESHOLD_ROOT = 3 允许root登录失败的次数</li>
+<li>SECURE_LOG = /var/log/secure 前面所说的日志文件</li>
+<li>DAEMON_LOG = /var/log/denyhosts 默认日志文件存放的路径<h3 id="编辑配置文件之后-重启服务就好了"><a href="#编辑配置文件之后-重启服务就好了" class="headerlink" title="编辑配置文件之后,重启服务就好了"></a>编辑配置文件之后,重启服务就好了</h3>  /etc/init.d/daemon-control restart 重启<br>  /etc/init.d/daemon-control status  查看状态</li>
+</ul>
+
       
 
       
@@ -222,18 +246,13 @@
     </div>
     <div class="article-info article-info-index">
       
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">have a nice day</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">安全防范</a>
         		</li>
       		
 		</ul>
@@ -289,7 +308,7 @@
         <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
         <p>扫一扫，分享到微信</p>
         <div class="wx-qrcode">
-            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/12/welcome/" alt="微信分享二维码">
+            <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://Irene-code.github.io/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/" alt="微信分享二维码">
         </div>
     </div>
 
@@ -303,15 +322,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/03/12/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Hello World
-        
-      </div>
-    </a>
   
+    <a href="/2020/03/16/lvm/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">逻辑卷管理器LVM</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -336,7 +351,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#虚怀若竹-清气若兰"><span class="toc-number">1.</span> <span class="toc-text">虚怀若竹 清气若兰</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Do-one-thing-at-a-time-and-do-well"><span class="toc-number">1.0.1.</span> <span class="toc-text">Do one thing at a time, and do well</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DenyHosts简介"><span class="toc-number">1.</span> <span class="toc-text">DenyHosts简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">1.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑DenyHosts配置文件"><span class="toc-number">1.3.</span> <span class="toc-text">编辑DenyHosts配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑配置文件之后-重启服务就好了"><span class="toc-number">1.4.</span> <span class="toc-text">编辑配置文件之后,重启服务就好了</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
