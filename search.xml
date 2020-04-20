@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>vim一些用法和参数</title>
+    <url>/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>Vim是从vi发展出来的一个文本编辑器,具有代码补完、编译及可以主动的以字体颜色辨别语法正确性等丰富功能</code></pre><a id="more"></a>
+<h3 id="vim打开文件使字符在命令终端显示颜色"><a href="#vim打开文件使字符在命令终端显示颜色" class="headerlink" title="vim打开文件使字符在命令终端显示颜色:"></a>vim打开文件使字符在命令终端显示颜色:</h3><pre><code>例如字符显示红色,首先在`i`插入模式下,按&quot;ctrl+v+[&quot; 会出现^[ ,写成&quot;^[[1;31mred^[[0m&quot;(1是高亮显示,31m是红色,red是你要变颜色的字符串)</code></pre><img src="/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/red.JPG" class title="给你点个赞">
+
+<h3 id="命令模式光标跳转"><a href="#命令模式光标跳转" class="headerlink" title="命令模式光标跳转:"></a>命令模式光标跳转:</h3><pre><code>1)字符间跳转: h左，i右，j下，k上，（可以在前面加数字，如3h，向左移三个字符)
+2)单词间跳转: w下一个单词的词首, e当前或下一个单词的词尾，b当前或前一个单词的词尾(也可以加数字,如3w)
+3)当前页跳转: H页眉，M页中间行，L页底
+4)行首行尾跳转:^跳转至行首的第一个非空白字符，0跳转至行首，$跳转至行尾
+5)行间移动: nG扩展模式(n=数字,指定跳到第几行)，G最后一行，gg一行
+6)句间移动: ): 下一句，(: 上一句 (以一个.空格或空行为一句)
+7)段落间移动: }: 下一段，{: 上一段 (一空行为一段)</code></pre><h3 id="命令模式翻屏操作"><a href="#命令模式翻屏操作" class="headerlink" title="命令模式翻屏操作"></a>命令模式翻屏操作</h3><pre><code>1)ctrl+f: 向文件尾部翻一屏
+2)Ctrl+b: 向文件首部翻一屏
+3)ctrl+d: 向文件尾部翻半屏
+4)ctrl+u: 向文件首部翻半屏</code></pre><h3 id="命令模式操作"><a href="#命令模式操作" class="headerlink" title="命令模式操作"></a>命令模式操作</h3><pre><code>1)字符编辑:
+    x: 删除光标处的字符
+    nx: 删除光标处起始的n个字符
+    Xp: 交换光标所在处的字符及其后面字符的位置
+    ~: 转换大小写
+    J: 删除当前行后的换行符
+2)替换命令(r, replace):
+    r: 替换光标所在处的字符
+    R: 切换成 REPLACE模式
+3)删除命令:
+    d: 删除命令,可结合光标跳转字符,实现范围删除
+    d$ 删除到行尾
+    d^: 删除到非空行首
+    d0: 删除到行首
+    dw: 从当前光标删除至单字/单词末尾，光标 停留在下一个单词的第一位
+    de: 删除单词至单词末尾,光标停留在下一个单词前面
+    db: 删除到某个单词的开始位置
+    dd:删除光标所在的行
+    ndd:多行删除
+    D:从当前光标位置一直删除到行尾,留空行,等同于d$
+4)复制命令 y, yank):
+    y:  复制,行为相似于d命令
+    y$: 从当前光标复制末尾
+    y0: 从当前光标(不包括当前光标字符)复制到行首,包括行首有空格的情况
+    y^: 从当前光标(不包括当前光标字符)复制到行首,如果行首为空格,则不复制空格
+    yy: 复制行
+    nyy: 复制多行
+    Y: 复制整行
+5)改变命令(c, change):
+    cc: 删除当前行并输入新内容,相当于S
+    ncc: 删除多行并输入新内容
+    C: 删除当前光标到行尾,并切换成插入模式</code></pre><h3 id="末行模式"><a href="#末行模式" class="headerlink" title="末行模式"></a>末行模式</h3><pre><code>1)如:2表示第二行，n,x(数字)表示从n开始的行到x结尾  
+n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行到倒数第二行) %全文,相当于1,$
+2)/pat1/,/pat2/ 命令(d, y, w file, r file)，如：/^b/,/^c/d匹配以b开头的行到以c开头的行结束,再删除。
+3)%s/旧字符/新字符/g(c询问，i忽略大小写)，也可以%s@旧字符@新字符@(#也行)</code></pre><h3 id="vim的寄存器"><a href="#vim的寄存器" class="headerlink" title="vim的寄存器"></a>vim的寄存器</h3><pre><code>1)有26(a-z)个命名寄存器和一个无命名寄存器,用于存放不同的剪贴版内容，可以不同会话间共享，如: 3&quot;ayy 表示复制3行到a寄存器中，&quot;ap表示将a寄存器内容粘贴
+2)未指定将使用无命名寄存器
+3)有10个数字寄存器,用0,1,…,9表示,0存放最近复制内容,1存放最近删除内容,当新的文本变更和删除时,1转存到2,2转存到3,以此类推。数字寄存器不能在不同会话间共享</code></pre><h3 id="使用多窗口"><a href="#使用多窗口" class="headerlink" title="使用多窗口"></a>使用多窗口</h3><pre><code>1)多文件分割
+    vim -o|-O file1 file2…
+    -o: 水平分割
+    -O: 垂直分割
+    在窗口间切换: ctr+ W
+    在末行模式使用: sp file同样多窗口
+
+2)单文件窗口分割:
+    (先按ctrl+w,再按单个字母,如s,:split用是在末行模式)
+    Ctrl+W+s,:split 水平分割
+    Ctrl+W+v,:vertica 垂直分割
+    ctrl+w+q: 取消相邻窗口
+    ctr+w+o: 取消全部窗口
+    :wqall退出</code></pre><h3 id="定制vim的工作特性"><a href="#定制vim的工作特性" class="headerlink" title="定制vim的工作特性"></a>定制vim的工作特性</h3><pre><code>1)配置文件: 永久有效
+    全局: /etc/vimrc
+    个人: ~/.vimrc
+2)扩展模式: 当前vim进程有效
+3)行号
+    显示: set number简写为 set nu
+    取消显示: set nonumber,简写为 set nonu
+4)忽略字符的大小写
+    启用: set ic
+    不忽略: set noic
+5)自动缩进
+    启用: set ai
+    禁用: set noai
+6)智能缩进
+    启用: smartindent 简写 set si
+    禁用: set nosi
+7)高亮搜索
+    启用: set hlsearch
+    禁用: set nohlsearch
+8)语法高亮
+    启用: syntax on
+    禁用: syntax off
+9)显示Tab和换行符^I和$显示
+    启用: set list
+    禁用: set nolist
+10)文件格式
+    启用windows格式: set fileformat=dos
+    启用unix格式: set fileformat=unix
+    简写: set ff=dos|unix
+11)设置文本宽度
+    启用: set textwidth=65 (vim only)
+    禁用: set wrapmargin=15
+12)设置光标所在行的标识线
+    启用: set cursorline,简写cul
+    禁用: set no cursorline
+13)复制保留格式
+    启用: set paste
+    禁用: set nopaste</code></pre><blockquote>
+<p>命令模式黏贴多次命令: 如黏贴100次irene,<code>100iirene 后按ESC键</code></p>
+</blockquote>
+<blockquote>
+<p>&lt;开始位置&gt;&lt;命令&gt;&lt;结束位置&gt; 命令: y复制,d删除,gU变大写,gu小写 如<code>0y$</code>,0先到行头,y从这里开始拷贝,$拷贝到本行最后一个字符, 使用ye就是从当前位置拷贝到本单词的最后一个字符</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>vim命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DenyHosts使用</title>
+    <url>/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="DenyHosts简介"><a href="#DenyHosts简介" class="headerlink" title="DenyHosts简介"></a>DenyHosts简介</h2><pre><code>DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到/etc/hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是/var/log/secure,它也是由python编写的程序软件。</code></pre><a id="more"></a>
+
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><blockquote>
+<p><a href="https://sourceforge.net/projects/denyhosts/files/" target="_blank" rel="noopener">https://sourceforge.net/projects/denyhosts/files/</a></p>
+<blockquote>
+<p>下载之后上传到linux上</p>
+</blockquote>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><code>tar -zxvf DenyHosts-2.6.tar.gz</code> 解压 </li>
+<li><code>cd DenyHosts-2.6.tar.gz</code> 进到目录里安装</li>
+<li><code>python setup.py install</code> 安装</li>
+<li><code>cd /usr/share/denyhosts/</code> 默认安装在这里</li>
+<li><code>cp denyhosts.cfg-dist denyhosts.cfg</code> 配置文件 </li>
+<li><code>cp daemon-control-dist daemon-control</code> 这个是启动程序</li>
+<li><code>chown root daemon-control</code> 把所有者改为root</li>
+<li><code>chmod 700 daemon-control</code> 修改权限</li>
+<li><code>ln -s /usr/share/denyhosts/daemon-control /etc/init.d</code> 建立软连接</li>
+<li><code>/etc/init.d/daemon-control start</code> 启动denyhosts程序</li>
+<li><code>chkconfig daemon-control on</code> 设为开机自启</li>
+</ol>
+<h3 id="编辑DenyHosts配置文件"><a href="#编辑DenyHosts配置文件" class="headerlink" title="编辑DenyHosts配置文件"></a>编辑DenyHosts配置文件</h3><p><code>vim /usr/share/denyhosts/denyhosts.cfg</code></p>
+<ul>
+<li>HOSTS_DENY = /etc/hosts.deny  这个控制用户登录的文件</li>
+<li>PURGE_DENY = 30m 意思是过多后才清除已经禁止的,这里是30分钟</li>
+<li>DENY_THRESHOLD_INVALID = 1 允许无效用户失败次数</li>
+<li>DENY_THRESHOLD_VALID = 3 允许普通用户登录失败的次数</li>
+<li>DENY_THRESHOLD_ROOT = 3 允许root登录失败的次数</li>
+<li>SECURE_LOG = /var/log/secure 前面所说的日志文件</li>
+<li>DAEMON_LOG = /var/log/denyhosts 默认日志文件存放的路径</li>
+</ul>
+<h3 id="编辑配置文件之后-重启服务就好了"><a href="#编辑配置文件之后-重启服务就好了" class="headerlink" title="编辑配置文件之后,重启服务就好了"></a>编辑配置文件之后,重启服务就好了</h3><pre><code>/etc/init.d/daemon-control restart 重启
+/etc/init.d/daemon-control status  查看状态</code></pre>]]></content>
+      <tags>
+        <tag>安全防范</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>逻辑卷管理器LVM</title>
+    <url>/2020/03/16/lvm/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h2><pre><code>LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。</code></pre><a id="more"></a>
+<blockquote>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=414706265&auto=0&height=66"></iframe>
+</blockquote>
+<h3 id="PV-PE-VG-LV的意义"><a href="#PV-PE-VG-LV的意义" class="headerlink" title="PV,PE,VG,LV的意义:"></a>PV,PE,VG,LV的意义:</h3><pre><code>1. 物理卷(Physical Volume, PV)：就是我们实际的分区, 通过pvcreate命令将它转成LVM最底层的物理卷,这样就可以使用这些PV了
+2. 卷组(Volume Group, VG)：刚前言部分所讲的大磁盘就是卷组,它是将许多的PV整合成这个VG
+3. 物理扩展块(Physical Extent, PE)： LVM默认使用4MB的PE数据块,PE是整个LVM最小的存储单位,我们的文件数据都是借由写入PE来完成的,可以说有点像文件系统里面的block大小,所以调整PE会影响到LVM的最大容量
+4. 逻辑卷(Logical Volume,LV)：在最后VG还得切成LV,然后格式化之后,挂载就能用了,至于使LVM弹性修改文件系统容量,就是将PE加到LV中,要减少容量,反之即可</code></pre><h3 id="PV操作阶段"><a href="#PV操作阶段" class="headerlink" title="PV操作阶段:"></a>PV操作阶段:</h3><pre><code>首先用fdisk或gdisk分区,我这里使用gdisk来分区,并且把linux file system改成8E00,不改也没问题的
+gdisk -l /dev/sdb 查看分区情况
+gdisk /dev/sdb 分区
+我的分区是/dev/sdb1、2、3、4
+
+创建PV,使用pvcreate即可,一些命令如下:
+* pvcreate：将物理分区建立成为PV
+* pvscan：查找目前系统里面任何具有PV的磁盘
+* pvdisplay: 显示出目前系统上面的PV状态
+* pvremove: 将PV属性删除,使该分区不具有PV属性</code></pre><ul>
+<li><code>pvcreate /dev/sdb{1,2,3,4}</code></li>
+<li><code>pvscan</code></li>
+<li><code>pvdisplay /dev/sdb1</code></li>
+</ul>
+<h3 id="VG操作阶段"><a href="#VG操作阶段" class="headerlink" title="VG操作阶段:"></a>VG操作阶段:</h3><pre><code>VG命令:
+* vgcreate: 创建VG的命令
+* vgscan: 查找系统上面是否存在VG
+* vgdisplay: 显示目前系统上面的VG状态
+* vgextend: 在VG内增加额外的PV
+* vgreduce: 在VG内删除PV
+* vgchange: 设置VG是否启动
+* vgremove: 删除一个VG</code></pre><ul>
+<li><code>vgcreate -s 16M irenevg /dev/sdb{1,2,3}</code> 让sdb1,2,3创建成为VG,名称是irenevg(自定义名称),指定PV为16M</li>
+<li><code>vgextend irenevg /dev/sdb4</code>如果你想增加VG的容量就这么操作,又可以拿新的分区创建好PV之后加进来,就可以不断的扩容。</li>
+</ul>
+<h3 id="LV操作阶段"><a href="#LV操作阶段" class="headerlink" title="LV操作阶段"></a>LV操作阶段</h3><pre><code>创建完VG之后就是建立LV了,命令跟VG,PV都一样的,只是把vg或pv改成lv
+如：lvcreate 建立LV
+    lvresize 这个是对LV进行容量大小的调整</code></pre><ul>
+<li><code>lvcreate -L 2G -n irenelv irenevg</code> 将irenevg分2G给irenelv,或者是<code>lvcreate -l 128 -n irenelv irenevg</code>，(-L是后面是容量,单位有M,G,T)(-l后面是PE的个数,因为把PV大小设为了16M,所以16*128=2048,就是2G了)</li>
+<li><code>mkfs.xfs /dev/irenevg/irenelv</code> 格式化</li>
+<li><code>mkdir /mnt/lvm</code>创建挂载点</li>
+<li><code>mount /dev/irenevg/irenelv /mnt/lvm</code>挂载之后就可以使用了喔     </li>
+</ul>
+<blockquote>
+<p>放大LV容量<br>    前面已经说了VG怎么加大容量,而LV该如何从VG里分容量给自己呢?<br>    首先查看VG所剩的Free PE,就是剩余容量</p>
+</blockquote>
+<ul>
+<li><code>vgdisplay irenevg</code></li>
+<li><code>lvresize -L +500M /dev/irenevg/irenelv</code>这样放大LV,加了500M进去</li>
+<li><code>lvscan</code>可以看到/dev/irenevg/irenelv从2G变成了2.5G</li>
+<li><code>xfs_growfs /mnt/lvm</code>加大lv容量,但挂载的文件系统容量并没变,这一步是关键,执行之后再查看就会发现容量增加了,最后LVM逻辑卷管理器就做完了</li>
+</ul>
+<h3 id="使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><a href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率" class="headerlink" title="使用LVM thin Volume使LVM动态自动调整磁盘使用率"></a>使用LVM thin Volume使LVM动态自动调整磁盘使用率</h3><pre><code>这个其实是拿来骗人的,因为你有个磁盘是3TB,但是未来会用到5TB,但是你至少接下来这一段时间是还没办法超过3TB,达到5TB,又不能让用户知道只有3TB,所以LVM thin Volume就是调整到5TB,看着是5TB,实际上能用的只有3TB
+概念就是:建立一个可以实用实取的,用多少容量才分配实际写入多少容量的磁盘容量存储池,然后再由存储池产生一个指定要固定容量大小的lv设备
+因此实际写入3TB容量的存储池,再产生一个5TB的LV设备,实际只能用到3TB懂了吧,感觉这就是障眼法,唬人还可以</code></pre><ol>
+<li><code>lvcreate -L 1G -T irenevg/irenepool</code>创建thin pool设备</li>
+<li><code>lvdisplay /dev/irenevg/irenepool</code>查看,或者<code>lvs irenevg</code></li>
+<li><code>lvcreate -V 20G -T irenevg/irenepool -n irenethin1</code>建立20G的irenethin1,必须要链接到irenepool这个地址池,之后lvs irenevg就可以看到20G的irenethin1这个设备</li>
+<li><code>mkfs.xfs /dev/irenevg/irenethink1</code></li>
+<li><code>mkdir /mnt/thin</code></li>
+<li><code>mount /dev/irenevg/irenethink1 /mnt/thin</code>之后就可以使用了,可以用<code>df -Th /mnt/thin</code>看下容量,但是实际只能用的还是刚写进地址池的1G</li>
+</ol>
+<h3 id="LVM的LV磁盘快照"><a href="#LVM的LV磁盘快照" class="headerlink" title="LVM的LV磁盘快照"></a>LVM的LV磁盘快照</h3><pre><code>快照就是将当时的系统信息记录下来，未来有任何数据修改,则原始数据会被搬移到快照区</code></pre><ol>
+<li><code>vgdisplay irenevg</code>查看还有多少剩余容量,我这里只剩25PE</li>
+<li><code>lvcreate -s -l 25 -n irenesnap /dev/irenevg/irenelv</code>  把剩下的PE都给快照区了</li>
+<li><code>mkdir /mnt/snap</code></li>
+<li><code>mount -o nouuid /dev/irenevg/irenesnap /mnt/snap</code>让文件系统忽略相同UUID，挂载到/mnt/snap</li>
+<li>你可以复制一些目录到lv挂载目录,如我的在/mnt/lvm,cp一些文件或目录,然后删除一些,查看/mnt/snap会发现删除的哪些都在快照区</li>
+<li><code>xfsdump -l 0 -L lvm -M lvm -f /root/lvm.dump /mnt/snap</code>把快照区挂载点里面的文件或目录都备份到了/root/lvm.dump,如果想还原/mnt/lvm,就用xfsrestore恢复</li>
+</ol>
+<h3 id="LVM的删除"><a href="#LVM的删除" class="headerlink" title="LVM的删除"></a>LVM的删除</h3><pre><code>* 先卸载系统上面的LVM文件系统(快照和所有的LV)
+* 使用lvremove删除掉LV
+* 使用vgchange -a n VGname 使VG不具有Active标志
+* 使用vgremove删除VG
+* 使用pvremove删除PV
+* 如果改了系统id就修改回来</code></pre><ol>
+<li><code>umount /mnt/lvm /mnt/thin /mnt/snap</code></li>
+<li><code>lvs irenevg</code></li>
+<li><code>lvremove /dev/irenevg/irenethin1 /dev/irenevg/irenepool</code></li>
+<li><code>lvremove /dev/irenevg/irenelv</code></li>
+<li><code>vgchange -a n irenevg</code></li>
+<li><code>vgremove irenevg</code></li>
+<li><code>pvremove /dev/sdb{1,2,3,4}</code></li>
+<li><code>gdisk /dev/sdb</code> 把8E00改回8300,就完成了,如果没做这一步就不用了</li>
+</ol>
+<h3 id="使用SSM工具创建可动态扩容的存储池"><a href="#使用SSM工具创建可动态扩容的存储池" class="headerlink" title="使用SSM工具创建可动态扩容的存储池"></a>使用SSM工具创建可动态扩容的存储池</h3><ol>
+<li><code>yum -y install system-storage-manager</code>首先安装ssm工具</li>
+<li><code>ssm list dev</code>查看磁盘信息</li>
+<li><code>ssm list pool</code>存储池的信息</li>
+<li><code>mkdir /mnt/ssm</code></li>
+<li><code>ssm create -s 1G -n ssmlv --fstype xfs -p ssmvg /dev/sdb{1,2,3,4} /mnt/ssm</code> 意思是:ssm create -s lv大小 -n lv名称 –fstype lv文件系统类型 -p 卷组名 设备 挂载点</li>
+<li><code>ssm add -p ssmvg /dev/sdb5</code>将物理磁盘添加到卷组中</li>
+<li><code>ssm resize -s +500M /dev/ssmvg/ssmlv</code>扩大LVM卷的容量</li>
+<li><code>ssm snapshot /dev/ssmvg/ssmlv</code>对LVM卷的快照功能</li>
+<li><code>ssm remove /dev/ssmvg/ssmlv</code>删除LVM卷</li>
+<li><code>ssm remove ssmvg</code>删除卷组<blockquote>
+<p>更多的用法就不详细讲了,可以自行查阅资料来补充</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>LVM使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux磁盘阵列(RAID)</title>
+    <url>/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/</url>
+    <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><pre><code>磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文</code></pre><a id="more"></a>
+<blockquote>
+<p>听音乐更配噢!<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe></p>
+</blockquote>
+<h2 id="磁盘阵列RAID"><a href="#磁盘阵列RAID" class="headerlink" title="磁盘阵列RAID"></a>磁盘阵列RAID</h2><p>磁盘阵列(Redundant Arrays of Independent Disks，RAID),通过技术(软件或硬件)将多个较小的磁盘整合成为一个较大的磁盘设备,但是这个较大的磁盘设备并不只是存储而已,还具有数据保护的功能,RAID有几种级别,常见的分别有(RAID0,RAID1,RAID5,RAID6,RAID10,RAID50),选择不同的Raid级别整合之后,功能当然就会有所不同,而建立RAID命令其实很简单,一起来看看:</p>
+<blockquote>
+<p><code>mdadm  - -create  /dev/md[0-9] - -auto=yes - -level=[0,1,5,6] - -chunk=NK - -raid-devices=N - -spare-devices=N /dev/sdc /dev/sdx</code></p>
+</blockquote>
+<h4 id="选项参数的意思"><a href="#选项参数的意思" class="headerlink" title="选项参数的意思:"></a>选项参数的意思:</h4><pre><code>注意:命令参数全写前面是--,简写是一个-,中间没有空格
+--create或-C : 建立一个新的磁盘阵列
+--auto=yes : 决定建立后面接的软件磁盘阵列设备,即/dev/md0,/dev/md1等等
+--chunk或者-c : 决定这个设备的chunk大小,也可以当成stripe大小,一般为64K或512K
+--raid-devices或-n : 使用几个磁盘分区作为磁盘阵列的设备 
+--spare-devices或-x : 使用几个磁盘设备作为备用设备
+--level=[0,1,5,6,10] : 设置这组磁盘阵列的级别
+--detail或-D : 后面所接的那个磁盘阵列设备的详细信息 
+--scan或-s : 扫描配置文件/proc/mdstat,得到阵列缺失信息
+--add或-a : 添加设备到阵列
+-v : 显示详细信息</code></pre><hr>
+<ul>
+<li><p>RAID 0(等量模式),性能最佳: </p>
+<ul>
+<li>这种模式如果使用相同型号与容量的磁盘组成的话,效果上会很好,接下来需要两块磁盘做RAID0,如:<tr>/dev/sdb和/dev/sdc,也可以是/dev/sdb1和/dev/sdb2</tr></li>
+<li><code>mdadm -C -v /dev/md0 -l 0 -n 2 /dev/sdb{1,2}</code> 之后会有array /dev/md0 started表示成功了,然后可以输入: <code>mdadm -DS</code>,可以查看本机上的所有RAID,如若查看详细信息:<code>mdadm -D /dev/md0</code>即可。</li>
+<li><code>mdadm -DS &gt; /etc/mdadm.conf</code> 生成配置文件,这一步主要是你在停止RAID的之后再打开时,是要读取配置文件的,所以避免掉坑。</li>
+<li><code>mkfs.xfs /dev/md0</code> 这里你可以格式成其他文件系统如ext4就为mkfs.ext4。</li>
+<li><code>mkdir /raid0</code> 创建挂载目录,没啥好说,目录名自定义即可。</li>
+<li><code>mount /dev/md0 /raid0</code> 把磁盘阵列挂载到目录上,就可以使用了,用<code>df -h /raid0</code>查看。</li>
+<li><code>blkid /dev/md0</code>然后找到UUID并且写到/etc/fstab下面,如<code>&quot;UUID=5bda0872-c4a2-85ad-a48f-5621d8zad001 /raid0 xfs defaults 0 0</code></li>
+</ul>
+</li>
+<li><p>RAID 1(镜像模式, mirror),完整备份:</p>
+<ul>
+<li><code>mdadm -C -v /dev/md1 -l 1 -n 2 -x 1 /dev/sd[c,d,e]</code></li>
+<li><code>mdadm -Dsv &gt; /etc/mdadm.conf</code></li>
+<li><code>mkfs.xfs /dev/md1</code></li>
+<li><code>mkdir /raid1 &amp;&amp; mount /dev/md1 /raid1</code></li>
+<li><code>mdadm /dev/md1 -f /dev/sdc</code>模拟/dev/sdc出错,看备份盘是否会顶替继续工作,当你使用<code>mdadm -D /dev/md1</code>会发现出错磁盘已经被备份磁盘替换了,热备份的操作,是不是觉得会方便很多,至少还可以正常继续用 </li>
+<li><code>mdadm -r /dev/md1 /dev/sdc</code>移除掉出错盘,同样<code>mdadm -a /dev/md1 /dev/sdf</code>新加块热备盘</li>
+</ul>
+</li>
+<li><p>RAID 5(性能与数据备份的均衡考虑):</p>
+<ul>
+<li>首先呢,我们准备5个分区,可以使用gdisk来分区,如<code>gdisk /dev/sdb</code>按n新加分区,具体操作不多说了,最后分区为:/dev/sdb5,/dev/sdb6,/dev/sdb7,/dev/sdb8,/dev/sdb9</li>
+<li><code>mdadm -C /dev/md0 --auto=yes -l=5 -c=256K -n=4 -x=1 /dev/sdb{5..9}</code>创建RAID5之后,<code>mdadm -D /dev/md0</code>查看信息</li>
+<li><code>cat /proc/mdstat</code>可以使用此文件来查看系统软件磁盘阵列的情况</li>
+<li><code>mkfs.xfs -f -d su=256K,sw=3 -r extsize=768K /dev/md0</code>纳闷后面参数是什么对吧,因为chunk容量为256K,所以su=256K,而共有4块组成RAID5,RAID5它的总容量是整体减去一块磁盘或分区,而热备份盘不算上,所以(4-1=3),则sw=3,然后这两项计算数据宽度为:256K*3=768K</li>
+<li><code>mkdir /raid5 &amp;&amp; mount /dev/md0 /raid5</code>就可以使用了</li>
+<li><code>mdadm - -mange /dev/md[0-9] [-a 设备] [-r 设备] [-f 设备]</code>跟前文同样的操作,都可以</li>
+<li><code>mdadm - -mange /dev/md0 -f /dev/sdb7</code>同样删除<code>mdadm - -mange /dev/md0 -r /dev/sdb7</code>增加<code>mdadm - -mange /dev/md0 -a /dev/sdb7</code></li>
+<li><code>mdadm -Dsv &gt; /etc/mdadm.conf</code>停止md0磁盘阵列前,一定要注意数据已经同步到/etc/mdadm.conf,<code>mdadm -D /dev/md0</code>出现resync则同步完成,使用<code>mdadm -S /dev/md0</code>停止,使用<code>mdadm -As</code>激活</li>
+<li><code>mdadm -G /dev/md0 -n 5 -c 256K</code>可以扩展RAID5,使它可用磁盘数量为5块, <code>mdadm -Dsv &gt; /etc/mdadm.conf</code>保存配置文件，服务器启动时自动加载</li>
+<li>1.第一种删除RAID方法: <code>umount /raid0</code>,如果有写进/etc/fstab,把哪一行删了,然后覆盖RAID的metadata和superblock, <code>dd if=/dev/zero of=/dev/md0 bs=1M count=50</code>, <code>mdadm -S /dev/md0</code>, 过来就把磁盘或分区覆盖一下,<code>dd if=/dev/zero of=/dev/sdb5 bs=1M count=10; dd if=/dev/zero of=/dev/sdb6 bs=1M count=10; dd if=/dev/zero of=/dev/sdb7 bs=1M count=10; dd if=/dev/zero of=/dev/sdb8 bs=1M count=10; dd if=/dev/zero of=/dev/sdb9 bs=1M count=10</code>,就行了看了<code>cat /proc/mdstat</code>会发现不存在了</li>
+<li>2.第一种删除RAID方法: <code>umount /dev/md0 /raid0</code>, <code>mdadm -Ss</code> 停止 raid 设备, <code>rm -rf /etc/mdadm.conf</code> 删除 raid 配置文件, <code>mdadm --zero-superblock /dev/sdb5</code>清除物理磁盘中的 raid 标识,一个个清除完就行了</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
+</blockquote>
+<ul>
+<li>前文如果出现错别字或者有错误的地方,还望谅解,在此感谢。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux爱好者</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/03/12/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<a id="more"></a>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+</search>
