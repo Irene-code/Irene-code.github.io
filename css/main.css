@@ -1174,7 +1174,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #1ae91b;
+  background: #ff6953;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2329,7 +2329,7 @@ body #footer > div > div {
   background: transparent;
 }
 .menu {
-  margin-top: 2em;
+  margin-top: 1em;
   padding-left: 0;
   text-align: center;
   background: rgba(0,0,0,0.5);
@@ -3097,7 +3097,7 @@ p#div-border-top-purple {
   padding: initial;
 }
 .post-block {
-  background: rgba(248,248,255,0.75);
+  background: rgba(248,248,255,0.7);
   border-radius: initial;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
   padding: 40px;
