@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker安装</title>
+    <url>/2020/04/26/Docker%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h3 id="Docker虚拟化技术的概念"><a href="#Docker虚拟化技术的概念" class="headerlink" title="Docker虚拟化技术的概念"></a>Docker虚拟化技术的概念</h3><pre><code>1. Docker是一款轻量级、高性能的虚拟化技术，是目前互联网使用最多的虚拟化技术，Docker虚拟化技术的本质类似集装箱机制，最早集装箱没有出现的时候，码头上有许多搬运的工人在搬运货物，集装箱出现以后，码头上看到更多的不是工人，而且集装箱的搬运模式更加单一，更加高效，还有其他的好处。
+2. 将货物多打包在集装箱里面，可以防止货物之间相互影响。并且到了另外一个码头需要转运的话，有了在集装箱以后，直接把它运送到另一个码头即可，完全可以保证里面的货物是整体的搬迁，并且不会损坏货物本身。
+3. Docker技术机制跟集装箱类似，Docker虚拟化 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。
+4. Docker容器是完全使用沙箱机制，相互之间不会有任何接口，几乎没有性能开销,可以很容易地在机器和数据中心中运行。最重要的是，他们不依赖于任何语言、框架或包括系统。</code></pre><a id="more"></a>
+
+<h3 id="传统虚拟化结构与Docker虚拟化结构对比"><a href="#传统虚拟化结构与Docker虚拟化结构对比" class="headerlink" title="传统虚拟化结构与Docker虚拟化结构对比"></a>传统虚拟化结构与Docker虚拟化结构对比</h3><ol>
+<li>传统虚拟化结构:<blockquote>
+<img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/1.png" class title="传统虚拟化结构图示">
+<blockquote>
+<p>KVM、XEN、ESXI传统虚拟化（完全、半虚拟化）是在硬件的基础上，基于现有的操作系统层面上实现虚拟化，但是不能复用本地主机的操作系统，而是必须虚拟出自己的Guest OS系统，然后在Guest OS系统上部署相关的APP应用（Apache、MYSQL、PHP、JAVA）</p>
+</blockquote>
+</blockquote>
+</li>
+<li>Docker虚拟化结构:<blockquote>
+<img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/2.png" class title="Docker虚拟化结构图示">
+<blockquote>
+<p>Docker虚拟化技术是在硬件的基础上，基于现有的操作系统层面上实现虚拟化，直接复用本地主机的操作系统，直接虚拟生成Docker容器，而在Docker容器上部署相关的APP应用（Apache、MYSQL、PHP、JAVA）</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+<h3 id="Centos6安装Docker平台"><a href="#Centos6安装Docker平台" class="headerlink" title="Centos6安装Docker平台"></a>Centos6安装Docker平台</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.安装epel扩展源</span><br><span class="line">yum install epel-release -y</span><br><span class="line"></span><br><span class="line">2.安装Docker-io版本</span><br><span class="line">yum install docker-io lxc cgroup device-mapper* -y</span><br><span class="line"></span><br><span class="line">3.检查Docker版本是否安装</span><br><span class="line">rpm -qa|grep -E &quot;docker|lxc|device-mapper&quot;</span><br><span class="line"></span><br><span class="line">4.启动Docker引擎服务</span><br><span class="line">service docker restart</span><br><span class="line"></span><br><span class="line">5.查看Docker服务进程</span><br><span class="line">ps -ef|grep docker</span><br><span class="line"></span><br><span class="line">6.查看docker info信息</span><br><span class="line">docker info|more</span><br><span class="line"></span><br><span class="line">7.尝试从Docker仓库下载nginx镜像</span><br><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+<h3 id="Centos7安装Docker平台"><a href="#Centos7安装Docker平台" class="headerlink" title="Centos7安装Docker平台"></a>Centos7安装Docker平台</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.安装阿里源</span><br><span class="line">wget -P &#x2F;etc&#x2F;yum.repos.d&#x2F; http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br><span class="line"></span><br><span class="line">2.安装Docker-ce版本</span><br><span class="line">yum install docker-ce* -y</span><br><span class="line"></span><br><span class="line">3.检查Docker版本是否安装</span><br><span class="line">rpm -qa|grep -E &quot;docker&quot;</span><br><span class="line"></span><br><span class="line">4.启动Docker引擎服务</span><br><span class="line">systemctl restart docker.service</span><br><span class="line"></span><br><span class="line">5.查看Docker服务进程</span><br><span class="line">ps -ef|grep docker</span><br><span class="line"></span><br><span class="line">6.查看docker info信息</span><br><span class="line">docker info|more</span><br><span class="line"></span><br><span class="line">7.在Docker仓库下载nginx镜像</span><br><span class="line">docker search nginx</span><br><span class="line">docke pull nginx或者另一个docker pull docker.io&#x2F;nginx</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>docker切换镜像源</p>
+<blockquote>
+<p>cat&gt;/etc/docker/daemon.json&lt;&lt;EOF<br>{<br>“registry-mirrors”:[“<a href="https://registry.docker-cn.com&quot;]">https://registry.docker-cn.com&quot;]</a><br>}<br>EOF</p>
+</blockquote>
+</blockquote>
+<h3 id="docker的简单使用"><a href="#docker的简单使用" class="headerlink" title="docker的简单使用"></a>docker的简单使用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.查看是否安装了nginx镜像</span><br><span class="line">docker images | grep -i nginx </span><br><span class="line"></span><br><span class="line">2.docker run -itd -p 80:80 nginx:latest</span><br><span class="line">参数:</span><br><span class="line">    run 全新创建一台容器</span><br><span class="line">    -i  interactive交互模式</span><br><span class="line">    -t  tty打开终端</span><br><span class="line">    -d  detach后台运行</span><br><span class="line">    -p  publist发布端口,将宿主机80(第一个)映射到容器80</span><br><span class="line"></span><br><span class="line">3.查看已启动nginx容器状态和IP地址(虚拟机)</span><br><span class="line">以下:</span><br><span class="line">    进程查看: docker ps</span><br><span class="line">    IP地址: docker inspect 8a6cc34d7ff6|grep -i ipaddr|tail -1</span><br><span class="line">    或者docker inspect 8a6cc34d7ff6|grep -i ipaddr|tail -1|awk -F\&quot; &#39;&#123;print $4&#125;&#39;</span><br><span class="line"></span><br><span class="line">4.停止nginx容器:</span><br><span class="line">docker stop 8a6cc34d7ff6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/id.png" class title="docker ps图示}&lt;&#x2F;p&gt; &lt;&#x2F;blockquote&gt;"></p></blockquote>]]></content>
+      <tags>
+        <tag>Docker容器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vim一些用法和参数</title>
     <url>/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>Vim是从vi发展出来的一个文本编辑器,具有代码补完、编译及可以主动的以字体颜色辨别语法正确性等丰富功能</code></pre><a id="more"></a>
@@ -265,12 +305,10 @@ gdisk /dev/sdb 分区
     <url>/2020/03/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/</url>
     <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><pre><code>磁盘阵列分为软件,硬件磁盘阵列,这里主要是讲软件磁盘阵列,要知道在创建时步骤是什么,删除该如何删除等等,废话就不多讲了,理论与实践为主,⬇下方请点击展开全文</code></pre><a id="more"></a>
 <blockquote>
-<p>听音乐更配噢!<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=35416347&auto=0&height=66"></iframe>
 </blockquote>
 <h2 id="磁盘阵列RAID"><a href="#磁盘阵列RAID" class="headerlink" title="磁盘阵列RAID"></a>磁盘阵列RAID</h2><p>磁盘阵列(Redundant Arrays of Independent Disks，RAID),通过技术(软件或硬件)将多个较小的磁盘整合成为一个较大的磁盘设备,但是这个较大的磁盘设备并不只是存储而已,还具有数据保护的功能,RAID有几种级别,常见的分别有(RAID0,RAID1,RAID5,RAID6,RAID10,RAID50),选择不同的Raid级别整合之后,功能当然就会有所不同,而建立RAID命令其实很简单,一起来看看:</p>
-<blockquote>
-<p><code>mdadm  - -create  /dev/md[0-9] - -auto=yes - -level=[0,1,5,6] - -chunk=NK - -raid-devices=N - -spare-devices=N /dev/sdc /dev/sdx</code></p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mdadm  --create  &#x2F;dev&#x2F;md[0-9] --auto&#x3D;yes --level&#x3D;[0,1,5,6] --chunk&#x3D;NK --raid-devices&#x3D;N --spare-devices&#x3D;N &#x2F;dev&#x2F;sdc &#x2F;dev&#x2F;sdx</span><br></pre></td></tr></table></figure>
 <h4 id="选项参数的意思"><a href="#选项参数的意思" class="headerlink" title="选项参数的意思:"></a>选项参数的意思:</h4><pre><code>注意:命令参数全写前面是--,简写是一个-,中间没有空格
 --create或-C : 建立一个新的磁盘阵列
 --auto=yes : 决定建立后面接的软件磁盘阵列设备,即/dev/md0,/dev/md1等等
@@ -311,8 +349,8 @@ gdisk /dev/sdb 分区
 <li><code>cat /proc/mdstat</code>可以使用此文件来查看系统软件磁盘阵列的情况</li>
 <li><code>mkfs.xfs -f -d su=256K,sw=3 -r extsize=768K /dev/md0</code>纳闷后面参数是什么对吧,因为chunk容量为256K,所以su=256K,而共有4块组成RAID5,RAID5它的总容量是整体减去一块磁盘或分区,而热备份盘不算上,所以(4-1=3),则sw=3,然后这两项计算数据宽度为:256K*3=768K</li>
 <li><code>mkdir /raid5 &amp;&amp; mount /dev/md0 /raid5</code>就可以使用了</li>
-<li><code>mdadm - -mange /dev/md[0-9] [-a 设备] [-r 设备] [-f 设备]</code>跟前文同样的操作,都可以</li>
-<li><code>mdadm - -mange /dev/md0 -f /dev/sdb7</code>同样删除<code>mdadm - -mange /dev/md0 -r /dev/sdb7</code>增加<code>mdadm - -mange /dev/md0 -a /dev/sdb7</code></li>
+<li><code>mdadm --mange /dev/md[0-9] [-a 设备] [-r 设备] [-f 设备]</code>跟前文同样的操作,都可以</li>
+<li><code>mdadm --mange /dev/md0 -f /dev/sdb7</code>同样删除<code>mdadm --mange /dev/md0 -r /dev/sdb7</code>增加<code>mdadm --mange /dev/md0 -a /dev/sdb7</code></li>
 <li><code>mdadm -Dsv &gt; /etc/mdadm.conf</code>停止md0磁盘阵列前,一定要注意数据已经同步到/etc/mdadm.conf,<code>mdadm -D /dev/md0</code>出现resync则同步完成,使用<code>mdadm -S /dev/md0</code>停止,使用<code>mdadm -As</code>激活</li>
 <li><code>mdadm -G /dev/md0 -n 5 -c 256K</code>可以扩展RAID5,使它可用磁盘数量为5块, <code>mdadm -Dsv &gt; /etc/mdadm.conf</code>保存配置文件，服务器启动时自动加载</li>
 <li>1.第一种删除RAID方法: <code>umount /raid0</code>,如果有写进/etc/fstab,把哪一行删了,然后覆盖RAID的metadata和superblock, <code>dd if=/dev/zero of=/dev/md0 bs=1M count=50</code>, <code>mdadm -S /dev/md0</code>, 过来就把磁盘或分区覆盖一下,<code>dd if=/dev/zero of=/dev/sdb5 bs=1M count=10; dd if=/dev/zero of=/dev/sdb6 bs=1M count=10; dd if=/dev/zero of=/dev/sdb7 bs=1M count=10; dd if=/dev/zero of=/dev/sdb8 bs=1M count=10; dd if=/dev/zero of=/dev/sdb9 bs=1M count=10</code>,就行了看了<code>cat /proc/mdstat</code>会发现不存在了</li>
@@ -324,9 +362,6 @@ gdisk /dev/sdb 分区
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
 <p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
 </blockquote>
-<ul>
-<li>前文如果出现错别字或者有错误的地方,还望谅解,在此感谢。</li>
-</ul>
 ]]></content>
       <tags>
         <tag>linux爱好者</tag>

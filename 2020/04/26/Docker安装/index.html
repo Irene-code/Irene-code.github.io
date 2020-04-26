@@ -19,22 +19,24 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="vim命令使用">
+  <meta name="description" content="Docker虚拟化技术的概念1. Docker是一款轻量级、高性能的虚拟化技术，是目前互联网使用最多的虚拟化技术，Docker虚拟化技术的本质类似集装箱机制，最早集装箱没有出现的时候，码头上有许多搬运的工人在搬运货物，集装箱出现以后，码头上看到更多的不是工人，而且集装箱的搬运模式更加单一，更加高效，还有其他的好处。 2. 将货物多打包在集装箱里面，可以防止货物之间相互影响。并且到了另外一个码头需要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vim一些用法和参数">
-<meta property="og:url" content="http://yoursite.com/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/index.html">
+<meta property="og:title" content="Docker安装">
+<meta property="og:url" content="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/index.html">
 <meta property="og:site_name" content="reveluv">
-<meta property="og:description" content="vim命令使用">
+<meta property="og:description" content="Docker虚拟化技术的概念1. Docker是一款轻量级、高性能的虚拟化技术，是目前互联网使用最多的虚拟化技术，Docker虚拟化技术的本质类似集装箱机制，最早集装箱没有出现的时候，码头上有许多搬运的工人在搬运货物，集装箱出现以后，码头上看到更多的不是工人，而且集装箱的搬运模式更加单一，更加高效，还有其他的好处。 2. 将货物多打包在集装箱里面，可以防止货物之间相互影响。并且到了另外一个码头需要">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/red.JPG">
-<meta property="article:published_time" content="2020-03-20T02:03:19.000Z">
-<meta property="article:modified_time" content="2020-04-10T12:22:35.285Z">
+<meta property="og:image" content="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/id.png">
+<meta property="article:published_time" content="2020-04-26T03:05:12.000Z">
+<meta property="article:modified_time" content="2020-04-26T04:40:01.427Z">
 <meta property="article:author" content="irenecode">
-<meta property="article:tag" content="vim命令">
+<meta property="article:tag" content="Docker容器">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/red.JPG">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/1.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/">
+<link rel="canonical" href="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/">
 
 
 <script id="page-configurations">
@@ -47,7 +49,7 @@
   };
 </script>
 
-  <title>vim一些用法和参数 | reveluv</title>
+  <title>Docker安装 | reveluv</title>
   
 
 
@@ -188,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/26/Docker%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/xing.jpg">
@@ -201,7 +203,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          vim一些用法和参数
+          Docker安装
         </h1>
 
         <div class="post-meta">
@@ -210,16 +212,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-03-20 10:03:19" itemprop="dateCreated datePublished" datetime="2020-03-20T10:03:19+08:00">2020-03-20</time>
+              <time title="创建时间：2020-04-26 11:05:12 / 修改时间：12:40:01" itemprop="dateCreated datePublished" datetime="2020-04-26T11:05:12+08:00">2020-04-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-10 20:22:35" itemprop="dateModified" datetime="2020-04-10T20:22:35+08:00">2020-04-10</time>
-              </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -227,7 +223,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -236,7 +232,6 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>2 分钟</span>
             </span>
-            <div class="post-description">vim命令使用</div>
 
         </div>
       </header>
@@ -247,111 +242,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>Vim是从vi发展出来的一个文本编辑器,具有代码补完、编译及可以主动的以字体颜色辨别语法正确性等丰富功能</code></pre><a id="more"></a>
-<h3 id="vim打开文件使字符在命令终端显示颜色"><a href="#vim打开文件使字符在命令终端显示颜色" class="headerlink" title="vim打开文件使字符在命令终端显示颜色:"></a>vim打开文件使字符在命令终端显示颜色:</h3><pre><code>例如字符显示红色,首先在`i`插入模式下,按&quot;ctrl+v+[&quot; 会出现^[ ,写成&quot;^[[1;31mred^[[0m&quot;(1是高亮显示,31m是红色,red是你要变颜色的字符串)</code></pre><img src="/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/red.JPG" class title="给你点个赞">
+        <h3 id="Docker虚拟化技术的概念"><a href="#Docker虚拟化技术的概念" class="headerlink" title="Docker虚拟化技术的概念"></a>Docker虚拟化技术的概念</h3><pre><code>1. Docker是一款轻量级、高性能的虚拟化技术，是目前互联网使用最多的虚拟化技术，Docker虚拟化技术的本质类似集装箱机制，最早集装箱没有出现的时候，码头上有许多搬运的工人在搬运货物，集装箱出现以后，码头上看到更多的不是工人，而且集装箱的搬运模式更加单一，更加高效，还有其他的好处。
+2. 将货物多打包在集装箱里面，可以防止货物之间相互影响。并且到了另外一个码头需要转运的话，有了在集装箱以后，直接把它运送到另一个码头即可，完全可以保证里面的货物是整体的搬迁，并且不会损坏货物本身。
+3. Docker技术机制跟集装箱类似，Docker虚拟化 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。
+4. Docker容器是完全使用沙箱机制，相互之间不会有任何接口，几乎没有性能开销,可以很容易地在机器和数据中心中运行。最重要的是，他们不依赖于任何语言、框架或包括系统。</code></pre><a id="more"></a>
 
-<h3 id="命令模式光标跳转"><a href="#命令模式光标跳转" class="headerlink" title="命令模式光标跳转:"></a>命令模式光标跳转:</h3><pre><code>1)字符间跳转: h左，i右，j下，k上，（可以在前面加数字，如3h，向左移三个字符)
-2)单词间跳转: w下一个单词的词首, e当前或下一个单词的词尾，b当前或前一个单词的词尾(也可以加数字,如3w)
-3)当前页跳转: H页眉，M页中间行，L页底
-4)行首行尾跳转:^跳转至行首的第一个非空白字符，0跳转至行首，$跳转至行尾
-5)行间移动: nG扩展模式(n=数字,指定跳到第几行)，G最后一行，gg一行
-6)句间移动: ): 下一句，(: 上一句 (以一个.空格或空行为一句)
-7)段落间移动: }: 下一段，{: 上一段 (一空行为一段)</code></pre><h3 id="命令模式翻屏操作"><a href="#命令模式翻屏操作" class="headerlink" title="命令模式翻屏操作"></a>命令模式翻屏操作</h3><pre><code>1)ctrl+f: 向文件尾部翻一屏
-2)Ctrl+b: 向文件首部翻一屏
-3)ctrl+d: 向文件尾部翻半屏
-4)ctrl+u: 向文件首部翻半屏</code></pre><h3 id="命令模式操作"><a href="#命令模式操作" class="headerlink" title="命令模式操作"></a>命令模式操作</h3><pre><code>1)字符编辑:
-    x: 删除光标处的字符
-    nx: 删除光标处起始的n个字符
-    Xp: 交换光标所在处的字符及其后面字符的位置
-    ~: 转换大小写
-    J: 删除当前行后的换行符
-2)替换命令(r, replace):
-    r: 替换光标所在处的字符
-    R: 切换成 REPLACE模式
-3)删除命令:
-    d: 删除命令,可结合光标跳转字符,实现范围删除
-    d$ 删除到行尾
-    d^: 删除到非空行首
-    d0: 删除到行首
-    dw: 从当前光标删除至单字/单词末尾，光标 停留在下一个单词的第一位
-    de: 删除单词至单词末尾,光标停留在下一个单词前面
-    db: 删除到某个单词的开始位置
-    dd:删除光标所在的行
-    ndd:多行删除
-    D:从当前光标位置一直删除到行尾,留空行,等同于d$
-4)复制命令 y, yank):
-    y:  复制,行为相似于d命令
-    y$: 从当前光标复制末尾
-    y0: 从当前光标(不包括当前光标字符)复制到行首,包括行首有空格的情况
-    y^: 从当前光标(不包括当前光标字符)复制到行首,如果行首为空格,则不复制空格
-    yy: 复制行
-    nyy: 复制多行
-    Y: 复制整行
-5)改变命令(c, change):
-    cc: 删除当前行并输入新内容,相当于S
-    ncc: 删除多行并输入新内容
-    C: 删除当前光标到行尾,并切换成插入模式</code></pre><h3 id="末行模式"><a href="#末行模式" class="headerlink" title="末行模式"></a>末行模式</h3><pre><code>1)如:2表示第二行，n,x(数字)表示从n开始的行到x结尾  
-n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行到倒数第二行) %全文,相当于1,$
-2)/pat1/,/pat2/ 命令(d, y, w file, r file)，如：/^b/,/^c/d匹配以b开头的行到以c开头的行结束,再删除。
-3)%s/旧字符/新字符/g(c询问，i忽略大小写)，也可以%s@旧字符@新字符@(#也行)</code></pre><h3 id="vim的寄存器"><a href="#vim的寄存器" class="headerlink" title="vim的寄存器"></a>vim的寄存器</h3><pre><code>1)有26(a-z)个命名寄存器和一个无命名寄存器,用于存放不同的剪贴版内容，可以不同会话间共享，如: 3&quot;ayy 表示复制3行到a寄存器中，&quot;ap表示将a寄存器内容粘贴
-2)未指定将使用无命名寄存器
-3)有10个数字寄存器,用0,1,…,9表示,0存放最近复制内容,1存放最近删除内容,当新的文本变更和删除时,1转存到2,2转存到3,以此类推。数字寄存器不能在不同会话间共享</code></pre><h3 id="使用多窗口"><a href="#使用多窗口" class="headerlink" title="使用多窗口"></a>使用多窗口</h3><pre><code>1)多文件分割
-    vim -o|-O file1 file2…
-    -o: 水平分割
-    -O: 垂直分割
-    在窗口间切换: ctr+ W
-    在末行模式使用: sp file同样多窗口
-
-2)单文件窗口分割:
-    (先按ctrl+w,再按单个字母,如s,:split用是在末行模式)
-    Ctrl+W+s,:split 水平分割
-    Ctrl+W+v,:vertica 垂直分割
-    ctrl+w+q: 取消相邻窗口
-    ctr+w+o: 取消全部窗口
-    :wqall退出</code></pre><h3 id="定制vim的工作特性"><a href="#定制vim的工作特性" class="headerlink" title="定制vim的工作特性"></a>定制vim的工作特性</h3><pre><code>1)配置文件: 永久有效
-    全局: /etc/vimrc
-    个人: ~/.vimrc
-2)扩展模式: 当前vim进程有效
-3)行号
-    显示: set number简写为 set nu
-    取消显示: set nonumber,简写为 set nonu
-4)忽略字符的大小写
-    启用: set ic
-    不忽略: set noic
-5)自动缩进
-    启用: set ai
-    禁用: set noai
-6)智能缩进
-    启用: smartindent 简写 set si
-    禁用: set nosi
-7)高亮搜索
-    启用: set hlsearch
-    禁用: set nohlsearch
-8)语法高亮
-    启用: syntax on
-    禁用: syntax off
-9)显示Tab和换行符^I和$显示
-    启用: set list
-    禁用: set nolist
-10)文件格式
-    启用windows格式: set fileformat=dos
-    启用unix格式: set fileformat=unix
-    简写: set ff=dos|unix
-11)设置文本宽度
-    启用: set textwidth=65 (vim only)
-    禁用: set wrapmargin=15
-12)设置光标所在行的标识线
-    启用: set cursorline,简写cul
-    禁用: set no cursorline
-13)复制保留格式
-    启用: set paste
-    禁用: set nopaste</code></pre><blockquote>
-<p>命令模式黏贴多次命令: 如黏贴100次irene,<code>100iirene 后按ESC键</code></p>
-</blockquote>
+<h3 id="传统虚拟化结构与Docker虚拟化结构对比"><a href="#传统虚拟化结构与Docker虚拟化结构对比" class="headerlink" title="传统虚拟化结构与Docker虚拟化结构对比"></a>传统虚拟化结构与Docker虚拟化结构对比</h3><ol>
+<li>传统虚拟化结构:<blockquote>
+<img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/1.png" class title="传统虚拟化结构图示">
 <blockquote>
-<p>&lt;开始位置&gt;&lt;命令&gt;&lt;结束位置&gt; 命令: y复制,d删除,gU变大写,gu小写 如<code>0y$</code>,0先到行头,y从这里开始拷贝,$拷贝到本行最后一个字符, 使用ye就是从当前位置拷贝到本单词的最后一个字符</p>
+<p>KVM、XEN、ESXI传统虚拟化（完全、半虚拟化）是在硬件的基础上，基于现有的操作系统层面上实现虚拟化，但是不能复用本地主机的操作系统，而是必须虚拟出自己的Guest OS系统，然后在Guest OS系统上部署相关的APP应用（Apache、MYSQL、PHP、JAVA）</p>
 </blockquote>
+</blockquote>
+</li>
+<li>Docker虚拟化结构:<blockquote>
+<img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/2.png" class title="Docker虚拟化结构图示">
+<blockquote>
+<p>Docker虚拟化技术是在硬件的基础上，基于现有的操作系统层面上实现虚拟化，直接复用本地主机的操作系统，直接虚拟生成Docker容器，而在Docker容器上部署相关的APP应用（Apache、MYSQL、PHP、JAVA）</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+<h3 id="Centos6安装Docker平台"><a href="#Centos6安装Docker平台" class="headerlink" title="Centos6安装Docker平台"></a>Centos6安装Docker平台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1.安装epel扩展源</span><br><span class="line">yum install epel-release -y</span><br><span class="line"></span><br><span class="line">2.安装Docker-io版本</span><br><span class="line">yum install docker-io lxc cgroup device-mapper* -y</span><br><span class="line"></span><br><span class="line">3.检查Docker版本是否安装</span><br><span class="line">rpm -qa|grep -E &quot;docker|lxc|device-mapper&quot;</span><br><span class="line"></span><br><span class="line">4.启动Docker引擎服务</span><br><span class="line">service docker restart</span><br><span class="line"></span><br><span class="line">5.查看Docker服务进程</span><br><span class="line">ps -ef|grep docker</span><br><span class="line"></span><br><span class="line">6.查看docker info信息</span><br><span class="line">docker info|more</span><br><span class="line"></span><br><span class="line">7.尝试从Docker仓库下载nginx镜像</span><br><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+<h3 id="Centos7安装Docker平台"><a href="#Centos7安装Docker平台" class="headerlink" title="Centos7安装Docker平台"></a>Centos7安装Docker平台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.安装阿里源</span><br><span class="line">wget -P &#x2F;etc&#x2F;yum.repos.d&#x2F; http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br><span class="line"></span><br><span class="line">2.安装Docker-ce版本</span><br><span class="line">yum install docker-ce* -y</span><br><span class="line"></span><br><span class="line">3.检查Docker版本是否安装</span><br><span class="line">rpm -qa|grep -E &quot;docker&quot;</span><br><span class="line"></span><br><span class="line">4.启动Docker引擎服务</span><br><span class="line">systemctl restart docker.service</span><br><span class="line"></span><br><span class="line">5.查看Docker服务进程</span><br><span class="line">ps -ef|grep docker</span><br><span class="line"></span><br><span class="line">6.查看docker info信息</span><br><span class="line">docker info|more</span><br><span class="line"></span><br><span class="line">7.在Docker仓库下载nginx镜像</span><br><span class="line">docker search nginx</span><br><span class="line">docke pull nginx或者另一个docker pull docker.io&#x2F;nginx</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>docker切换镜像源</p>
+<blockquote>
+<p>cat&gt;/etc/docker/daemon.json&lt;&lt;EOF<br>{<br>“registry-mirrors”:[“<a href="https://registry.docker-cn.com&quot;]">https://registry.docker-cn.com&quot;]</a><br>}<br>EOF</p>
+</blockquote>
+</blockquote>
+<h3 id="docker的简单使用"><a href="#docker的简单使用" class="headerlink" title="docker的简单使用"></a>docker的简单使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1.查看是否安装了nginx镜像</span><br><span class="line">docker images | grep -i nginx </span><br><span class="line"></span><br><span class="line">2.docker run -itd -p 80:80 nginx:latest</span><br><span class="line">参数:</span><br><span class="line">    run 全新创建一台容器</span><br><span class="line">    -i  interactive交互模式</span><br><span class="line">    -t  tty打开终端</span><br><span class="line">    -d  detach后台运行</span><br><span class="line">    -p  publist发布端口,将宿主机80(第一个)映射到容器80</span><br><span class="line"></span><br><span class="line">3.查看已启动nginx容器状态和IP地址(虚拟机)</span><br><span class="line">以下:</span><br><span class="line">    进程查看: docker ps</span><br><span class="line">    IP地址: docker inspect 8a6cc34d7ff6|grep -i ipaddr|tail -1</span><br><span class="line">    或者docker inspect 8a6cc34d7ff6|grep -i ipaddr|tail -1|awk -F\&quot; &#39;&#123;print $4&#125;&#39;</span><br><span class="line"></span><br><span class="line">4.停止nginx容器:</span><br><span class="line">docker stop 8a6cc34d7ff6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><img src="/2020/04/26/Docker%E5%AE%89%E8%A3%85/id.png" class title="docker ps图示}&lt;&#x2F;p&gt; &lt;&#x2F;blockquote&gt;"></p></blockquote>
     </div>
 
     
@@ -404,7 +327,7 @@ n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行�
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/vim%E5%91%BD%E4%BB%A4/" rel="tag"><i class="fa fa-tag"></i> vim命令</a>
+              <a href="/tags/Docker%E5%AE%B9%E5%99%A8/" rel="tag"><i class="fa fa-tag"></i> Docker容器</a>
           </div>
 
         
@@ -413,13 +336,10 @@ n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/" rel="prev" title="DenyHosts使用">
-      <i class="fa fa-chevron-left"></i> DenyHosts使用
+    <a href="/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/" rel="prev" title="vim一些用法和参数">
+      <i class="fa fa-chevron-left"></i> vim一些用法和参数
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/26/Docker%E5%AE%89%E8%A3%85/" rel="next" title="Docker安装">
-      Docker安装 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -478,7 +398,7 @@ n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vim打开文件使字符在命令终端显示颜色"><span class="nav-number">1.1.</span> <span class="nav-text">vim打开文件使字符在命令终端显示颜色:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式光标跳转"><span class="nav-number">1.2.</span> <span class="nav-text">命令模式光标跳转:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式翻屏操作"><span class="nav-number">1.3.</span> <span class="nav-text">命令模式翻屏操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式操作"><span class="nav-number">1.4.</span> <span class="nav-text">命令模式操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#末行模式"><span class="nav-number">1.5.</span> <span class="nav-text">末行模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim的寄存器"><span class="nav-number">1.6.</span> <span class="nav-text">vim的寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用多窗口"><span class="nav-number">1.7.</span> <span class="nav-text">使用多窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定制vim的工作特性"><span class="nav-number">1.8.</span> <span class="nav-text">定制vim的工作特性</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker虚拟化技术的概念"><span class="nav-number">1.</span> <span class="nav-text">Docker虚拟化技术的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传统虚拟化结构与Docker虚拟化结构对比"><span class="nav-number">2.</span> <span class="nav-text">传统虚拟化结构与Docker虚拟化结构对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Centos6安装Docker平台"><span class="nav-number">3.</span> <span class="nav-text">Centos6安装Docker平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Centos7安装Docker平台"><span class="nav-number">4.</span> <span class="nav-text">Centos7安装Docker平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker的简单使用"><span class="nav-number">5.</span> <span class="nav-text">docker的简单使用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
