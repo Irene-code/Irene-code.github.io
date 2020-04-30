@@ -1168,7 +1168,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #b55d00;
+  background: #7e9662;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2270,7 +2270,7 @@ ul.breadcrumb li + li:last-child {
   margin: auto;
 }
 body {
-  background: url("https://i.loli.net/2020/04/20/5FoghVJXxqPrSTH.jpg");
+  background: url("https://i.loli.net/2020/04/30/BFpdfc1skYIuqxj.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
@@ -2282,7 +2282,10 @@ body {
 /*这是设置底部文字, 看个人需要修改*/
 }
 body #footer > div > div {
-  color: #de5e5e;
+  color: #000;
+}
+body .footer-inner {
+  color: #000;
 }
 .main-inner {
   padding: 0.5em;
@@ -2485,7 +2488,7 @@ margin-left
   border-radius: 0.5em;
 }
 * {
-  cursor: url("/img/鼠标_正常.ico"), auto !important;
+  cursor: url("/images/AppStarting.ani"), auto !important;
 }
 :active {
   cursor: url("/img/鼠标_按下.ico"), auto !important;
@@ -3083,7 +3086,7 @@ p#div-border-top-purple {
   padding: initial;
 }
 .post-block {
-  background: rgba(248,248,255,0.75);
+  background: rgba(248,248,255,0.7);
   border-radius: initial;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
   padding: 40px;
