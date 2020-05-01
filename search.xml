@@ -100,114 +100,6 @@
       </tags>
   </entry>
   <entry>
-    <title>逻辑卷管理器LVM</title>
-    <url>/2020/03/16/lvm/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h2><pre><code>LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。</code></pre><a id="more"></a>
-<blockquote>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=414706265&auto=0&height=66"></iframe>
-</blockquote>
-<h3 id="PV-PE-VG-LV的意义"><a href="#PV-PE-VG-LV的意义" class="headerlink" title="PV,PE,VG,LV的意义:"></a>PV,PE,VG,LV的意义:</h3><pre><code>1. 物理卷(Physical Volume, PV)：就是我们实际的分区, 通过pvcreate命令将它转成LVM最底层的物理卷,这样就可以使用这些PV了
-2. 卷组(Volume Group, VG)：刚前言部分所讲的大磁盘就是卷组,它是将许多的PV整合成这个VG
-3. 物理扩展块(Physical Extent, PE)： LVM默认使用4MB的PE数据块,PE是整个LVM最小的存储单位,我们的文件数据都是借由写入PE来完成的,可以说有点像文件系统里面的block大小,所以调整PE会影响到LVM的最大容量
-4. 逻辑卷(Logical Volume,LV)：在最后VG还得切成LV,然后格式化之后,挂载就能用了,至于使LVM弹性修改文件系统容量,就是将PE加到LV中,要减少容量,反之即可</code></pre><h3 id="PV操作阶段"><a href="#PV操作阶段" class="headerlink" title="PV操作阶段:"></a>PV操作阶段:</h3><pre><code>首先用fdisk或gdisk分区,我这里使用gdisk来分区,并且把linux file system改成8E00,不改也没问题的
-gdisk -l /dev/sdb 查看分区情况
-gdisk /dev/sdb 分区
-我的分区是/dev/sdb1、2、3、4
-
-创建PV,使用pvcreate即可,一些命令如下:
-* pvcreate：将物理分区建立成为PV
-* pvscan：查找目前系统里面任何具有PV的磁盘
-* pvdisplay: 显示出目前系统上面的PV状态
-* pvremove: 将PV属性删除,使该分区不具有PV属性</code></pre><ul>
-<li><code>pvcreate /dev/sdb{1,2,3,4}</code></li>
-<li><code>pvscan</code></li>
-<li><code>pvdisplay /dev/sdb1</code></li>
-</ul>
-<h3 id="VG操作阶段"><a href="#VG操作阶段" class="headerlink" title="VG操作阶段:"></a>VG操作阶段:</h3><pre><code>VG命令:
-* vgcreate: 创建VG的命令
-* vgscan: 查找系统上面是否存在VG
-* vgdisplay: 显示目前系统上面的VG状态
-* vgextend: 在VG内增加额外的PV
-* vgreduce: 在VG内删除PV
-* vgchange: 设置VG是否启动
-* vgremove: 删除一个VG</code></pre><ul>
-<li><code>vgcreate -s 16M irenevg /dev/sdb{1,2,3}</code> 让sdb1,2,3创建成为VG,名称是irenevg(自定义名称),指定PV为16M</li>
-<li><code>vgextend irenevg /dev/sdb4</code>如果你想增加VG的容量就这么操作,又可以拿新的分区创建好PV之后加进来,就可以不断的扩容。</li>
-</ul>
-<h3 id="LV操作阶段"><a href="#LV操作阶段" class="headerlink" title="LV操作阶段"></a>LV操作阶段</h3><pre><code>创建完VG之后就是建立LV了,命令跟VG,PV都一样的,只是把vg或pv改成lv
-如：lvcreate 建立LV
-    lvresize 这个是对LV进行容量大小的调整</code></pre><ul>
-<li><code>lvcreate -L 2G -n irenelv irenevg</code> 将irenevg分2G给irenelv,或者是<code>lvcreate -l 128 -n irenelv irenevg</code>，(-L是后面是容量,单位有M,G,T)(-l后面是PE的个数,因为把PV大小设为了16M,所以16*128=2048,就是2G了)</li>
-<li><code>mkfs.xfs /dev/irenevg/irenelv</code> 格式化</li>
-<li><code>mkdir /mnt/lvm</code>创建挂载点</li>
-<li><code>mount /dev/irenevg/irenelv /mnt/lvm</code>挂载之后就可以使用了喔     </li>
-</ul>
-<blockquote>
-<p>放大LV容量<br>    前面已经说了VG怎么加大容量,而LV该如何从VG里分容量给自己呢?<br>    首先查看VG所剩的Free PE,就是剩余容量</p>
-</blockquote>
-<ul>
-<li><code>vgdisplay irenevg</code></li>
-<li><code>lvresize -L +500M /dev/irenevg/irenelv</code>这样放大LV,加了500M进去</li>
-<li><code>lvscan</code>可以看到/dev/irenevg/irenelv从2G变成了2.5G</li>
-<li><code>xfs_growfs /mnt/lvm</code>加大lv容量,但挂载的文件系统容量并没变,这一步是关键,执行之后再查看就会发现容量增加了,最后LVM逻辑卷管理器就做完了</li>
-</ul>
-<h3 id="使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><a href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率" class="headerlink" title="使用LVM thin Volume使LVM动态自动调整磁盘使用率"></a>使用LVM thin Volume使LVM动态自动调整磁盘使用率</h3><pre><code>这个其实是拿来骗人的,因为你有个磁盘是3TB,但是未来会用到5TB,但是你至少接下来这一段时间是还没办法超过3TB,达到5TB,又不能让用户知道只有3TB,所以LVM thin Volume就是调整到5TB,看着是5TB,实际上能用的只有3TB
-概念就是:建立一个可以实用实取的,用多少容量才分配实际写入多少容量的磁盘容量存储池,然后再由存储池产生一个指定要固定容量大小的lv设备
-因此实际写入3TB容量的存储池,再产生一个5TB的LV设备,实际只能用到3TB懂了吧,感觉这就是障眼法,唬人还可以</code></pre><ol>
-<li><code>lvcreate -L 1G -T irenevg/irenepool</code>创建thin pool设备</li>
-<li><code>lvdisplay /dev/irenevg/irenepool</code>查看,或者<code>lvs irenevg</code></li>
-<li><code>lvcreate -V 20G -T irenevg/irenepool -n irenethin1</code>建立20G的irenethin1,必须要链接到irenepool这个地址池,之后lvs irenevg就可以看到20G的irenethin1这个设备</li>
-<li><code>mkfs.xfs /dev/irenevg/irenethink1</code></li>
-<li><code>mkdir /mnt/thin</code></li>
-<li><code>mount /dev/irenevg/irenethink1 /mnt/thin</code>之后就可以使用了,可以用<code>df -Th /mnt/thin</code>看下容量,但是实际只能用的还是刚写进地址池的1G</li>
-</ol>
-<h3 id="LVM的LV磁盘快照"><a href="#LVM的LV磁盘快照" class="headerlink" title="LVM的LV磁盘快照"></a>LVM的LV磁盘快照</h3><pre><code>快照就是将当时的系统信息记录下来，未来有任何数据修改,则原始数据会被搬移到快照区</code></pre><ol>
-<li><code>vgdisplay irenevg</code>查看还有多少剩余容量,我这里只剩25PE</li>
-<li><code>lvcreate -s -l 25 -n irenesnap /dev/irenevg/irenelv</code>  把剩下的PE都给快照区了</li>
-<li><code>mkdir /mnt/snap</code></li>
-<li><code>mount -o nouuid /dev/irenevg/irenesnap /mnt/snap</code>让文件系统忽略相同UUID，挂载到/mnt/snap</li>
-<li>你可以复制一些目录到lv挂载目录,如我的在/mnt/lvm,cp一些文件或目录,然后删除一些,查看/mnt/snap会发现删除的哪些都在快照区</li>
-<li><code>xfsdump -l 0 -L lvm -M lvm -f /root/lvm.dump /mnt/snap</code>把快照区挂载点里面的文件或目录都备份到了/root/lvm.dump,如果想还原/mnt/lvm,就用xfsrestore恢复</li>
-</ol>
-<h3 id="LVM的删除"><a href="#LVM的删除" class="headerlink" title="LVM的删除"></a>LVM的删除</h3><pre><code>* 先卸载系统上面的LVM文件系统(快照和所有的LV)
-* 使用lvremove删除掉LV
-* 使用vgchange -a n VGname 使VG不具有Active标志
-* 使用vgremove删除VG
-* 使用pvremove删除PV
-* 如果改了系统id就修改回来</code></pre><ol>
-<li><code>umount /mnt/lvm /mnt/thin /mnt/snap</code></li>
-<li><code>lvs irenevg</code></li>
-<li><code>lvremove /dev/irenevg/irenethin1 /dev/irenevg/irenepool</code></li>
-<li><code>lvremove /dev/irenevg/irenelv</code></li>
-<li><code>vgchange -a n irenevg</code></li>
-<li><code>vgremove irenevg</code></li>
-<li><code>pvremove /dev/sdb{1,2,3,4}</code></li>
-<li><code>gdisk /dev/sdb</code> 把8E00改回8300,就完成了,如果没做这一步就不用了</li>
-</ol>
-<h3 id="使用SSM工具创建可动态扩容的存储池"><a href="#使用SSM工具创建可动态扩容的存储池" class="headerlink" title="使用SSM工具创建可动态扩容的存储池"></a>使用SSM工具创建可动态扩容的存储池</h3><ol>
-<li><code>yum -y install system-storage-manager</code>首先安装ssm工具</li>
-<li><code>ssm list dev</code>查看磁盘信息</li>
-<li><code>ssm list pool</code>存储池的信息</li>
-<li><code>mkdir /mnt/ssm</code></li>
-<li><code>ssm create -s 1G -n ssmlv --fstype xfs -p ssmvg /dev/sdb{1,2,3,4} /mnt/ssm</code> 意思是:ssm create -s lv大小 -n lv名称 –fstype lv文件系统类型 -p 卷组名 设备 挂载点</li>
-<li><code>ssm add -p ssmvg /dev/sdb5</code>将物理磁盘添加到卷组中</li>
-<li><code>ssm resize -s +500M /dev/ssmvg/ssmlv</code>扩大LVM卷的容量</li>
-<li><code>ssm snapshot /dev/ssmvg/ssmlv</code>对LVM卷的快照功能</li>
-<li><code>ssm remove /dev/ssmvg/ssmlv</code>删除LVM卷</li>
-<li><code>ssm remove ssmvg</code>删除卷组<blockquote>
-<p>更多的用法就不详细讲了,可以自行查阅资料来补充</p>
-</blockquote>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
-<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
-</blockquote>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>LVM使用</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vim一些用法和参数</title>
     <url>/2020/03/20/vim%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>Vim是从vi发展出来的一个文本编辑器,具有代码补完、编译及可以主动的以字体颜色辨别语法正确性等丰富功能</code></pre><a id="more"></a>
@@ -317,6 +209,114 @@ n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行�
 ]]></content>
       <tags>
         <tag>vim命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>逻辑卷管理器LVM</title>
+    <url>/2020/03/16/lvm/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h2><pre><code>LVM的全名时Logical Volume Manager,它的作用是将几个物理的分区或磁盘通过软件组合成为一块看起来是独立的大磁盘(VG),再然后就是把这个大磁盘经过划分成为可以用的分区,直接挂载就能用了,好处划分后的分区容量不够,又可在大磁盘里加容量到分区,大磁盘不够又可以添加物理分区或磁盘,非常的方便。</code></pre><a id="more"></a>
+<blockquote>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=414706265&auto=0&height=66"></iframe>
+</blockquote>
+<h3 id="PV-PE-VG-LV的意义"><a href="#PV-PE-VG-LV的意义" class="headerlink" title="PV,PE,VG,LV的意义:"></a>PV,PE,VG,LV的意义:</h3><pre><code>1. 物理卷(Physical Volume, PV)：就是我们实际的分区, 通过pvcreate命令将它转成LVM最底层的物理卷,这样就可以使用这些PV了
+2. 卷组(Volume Group, VG)：刚前言部分所讲的大磁盘就是卷组,它是将许多的PV整合成这个VG
+3. 物理扩展块(Physical Extent, PE)： LVM默认使用4MB的PE数据块,PE是整个LVM最小的存储单位,我们的文件数据都是借由写入PE来完成的,可以说有点像文件系统里面的block大小,所以调整PE会影响到LVM的最大容量
+4. 逻辑卷(Logical Volume,LV)：在最后VG还得切成LV,然后格式化之后,挂载就能用了,至于使LVM弹性修改文件系统容量,就是将PE加到LV中,要减少容量,反之即可</code></pre><h3 id="PV操作阶段"><a href="#PV操作阶段" class="headerlink" title="PV操作阶段:"></a>PV操作阶段:</h3><pre><code>首先用fdisk或gdisk分区,我这里使用gdisk来分区,并且把linux file system改成8E00,不改也没问题的
+gdisk -l /dev/sdb 查看分区情况
+gdisk /dev/sdb 分区
+我的分区是/dev/sdb1、2、3、4
+
+创建PV,使用pvcreate即可,一些命令如下:
+* pvcreate：将物理分区建立成为PV
+* pvscan：查找目前系统里面任何具有PV的磁盘
+* pvdisplay: 显示出目前系统上面的PV状态
+* pvremove: 将PV属性删除,使该分区不具有PV属性</code></pre><ul>
+<li><code>pvcreate /dev/sdb{1,2,3,4}</code></li>
+<li><code>pvscan</code></li>
+<li><code>pvdisplay /dev/sdb1</code></li>
+</ul>
+<h3 id="VG操作阶段"><a href="#VG操作阶段" class="headerlink" title="VG操作阶段:"></a>VG操作阶段:</h3><pre><code>VG命令:
+* vgcreate: 创建VG的命令
+* vgscan: 查找系统上面是否存在VG
+* vgdisplay: 显示目前系统上面的VG状态
+* vgextend: 在VG内增加额外的PV
+* vgreduce: 在VG内删除PV
+* vgchange: 设置VG是否启动
+* vgremove: 删除一个VG</code></pre><ul>
+<li><code>vgcreate -s 16M irenevg /dev/sdb{1,2,3}</code> 让sdb1,2,3创建成为VG,名称是irenevg(自定义名称),指定PV为16M</li>
+<li><code>vgextend irenevg /dev/sdb4</code>如果你想增加VG的容量就这么操作,又可以拿新的分区创建好PV之后加进来,就可以不断的扩容。</li>
+</ul>
+<h3 id="LV操作阶段"><a href="#LV操作阶段" class="headerlink" title="LV操作阶段"></a>LV操作阶段</h3><pre><code>创建完VG之后就是建立LV了,命令跟VG,PV都一样的,只是把vg或pv改成lv
+如：lvcreate 建立LV
+    lvresize 这个是对LV进行容量大小的调整</code></pre><ul>
+<li><code>lvcreate -L 2G -n irenelv irenevg</code> 将irenevg分2G给irenelv,或者是<code>lvcreate -l 128 -n irenelv irenevg</code>，(-L是后面是容量,单位有M,G,T)(-l后面是PE的个数,因为把PV大小设为了16M,所以16*128=2048,就是2G了)</li>
+<li><code>mkfs.xfs /dev/irenevg/irenelv</code> 格式化</li>
+<li><code>mkdir /mnt/lvm</code>创建挂载点</li>
+<li><code>mount /dev/irenevg/irenelv /mnt/lvm</code>挂载之后就可以使用了喔     </li>
+</ul>
+<blockquote>
+<p>放大LV容量<br>    前面已经说了VG怎么加大容量,而LV该如何从VG里分容量给自己呢?<br>    首先查看VG所剩的Free PE,就是剩余容量</p>
+</blockquote>
+<ul>
+<li><code>vgdisplay irenevg</code></li>
+<li><code>lvresize -L +500M /dev/irenevg/irenelv</code>这样放大LV,加了500M进去</li>
+<li><code>lvscan</code>可以看到/dev/irenevg/irenelv从2G变成了2.5G</li>
+<li><code>xfs_growfs /mnt/lvm</code>加大lv容量,但挂载的文件系统容量并没变,这一步是关键,执行之后再查看就会发现容量增加了,最后LVM逻辑卷管理器就做完了</li>
+</ul>
+<h3 id="使用LVM-thin-Volume使LVM动态自动调整磁盘使用率"><a href="#使用LVM-thin-Volume使LVM动态自动调整磁盘使用率" class="headerlink" title="使用LVM thin Volume使LVM动态自动调整磁盘使用率"></a>使用LVM thin Volume使LVM动态自动调整磁盘使用率</h3><pre><code>这个其实是拿来骗人的,因为你有个磁盘是3TB,但是未来会用到5TB,但是你至少接下来这一段时间是还没办法超过3TB,达到5TB,又不能让用户知道只有3TB,所以LVM thin Volume就是调整到5TB,看着是5TB,实际上能用的只有3TB
+概念就是:建立一个可以实用实取的,用多少容量才分配实际写入多少容量的磁盘容量存储池,然后再由存储池产生一个指定要固定容量大小的lv设备
+因此实际写入3TB容量的存储池,再产生一个5TB的LV设备,实际只能用到3TB懂了吧,感觉这就是障眼法,唬人还可以</code></pre><ol>
+<li><code>lvcreate -L 1G -T irenevg/irenepool</code>创建thin pool设备</li>
+<li><code>lvdisplay /dev/irenevg/irenepool</code>查看,或者<code>lvs irenevg</code></li>
+<li><code>lvcreate -V 20G -T irenevg/irenepool -n irenethin1</code>建立20G的irenethin1,必须要链接到irenepool这个地址池,之后lvs irenevg就可以看到20G的irenethin1这个设备</li>
+<li><code>mkfs.xfs /dev/irenevg/irenethink1</code></li>
+<li><code>mkdir /mnt/thin</code></li>
+<li><code>mount /dev/irenevg/irenethink1 /mnt/thin</code>之后就可以使用了,可以用<code>df -Th /mnt/thin</code>看下容量,但是实际只能用的还是刚写进地址池的1G</li>
+</ol>
+<h3 id="LVM的LV磁盘快照"><a href="#LVM的LV磁盘快照" class="headerlink" title="LVM的LV磁盘快照"></a>LVM的LV磁盘快照</h3><pre><code>快照就是将当时的系统信息记录下来，未来有任何数据修改,则原始数据会被搬移到快照区</code></pre><ol>
+<li><code>vgdisplay irenevg</code>查看还有多少剩余容量,我这里只剩25PE</li>
+<li><code>lvcreate -s -l 25 -n irenesnap /dev/irenevg/irenelv</code>  把剩下的PE都给快照区了</li>
+<li><code>mkdir /mnt/snap</code></li>
+<li><code>mount -o nouuid /dev/irenevg/irenesnap /mnt/snap</code>让文件系统忽略相同UUID，挂载到/mnt/snap</li>
+<li>你可以复制一些目录到lv挂载目录,如我的在/mnt/lvm,cp一些文件或目录,然后删除一些,查看/mnt/snap会发现删除的哪些都在快照区</li>
+<li><code>xfsdump -l 0 -L lvm -M lvm -f /root/lvm.dump /mnt/snap</code>把快照区挂载点里面的文件或目录都备份到了/root/lvm.dump,如果想还原/mnt/lvm,就用xfsrestore恢复</li>
+</ol>
+<h3 id="LVM的删除"><a href="#LVM的删除" class="headerlink" title="LVM的删除"></a>LVM的删除</h3><pre><code>* 先卸载系统上面的LVM文件系统(快照和所有的LV)
+* 使用lvremove删除掉LV
+* 使用vgchange -a n VGname 使VG不具有Active标志
+* 使用vgremove删除VG
+* 使用pvremove删除PV
+* 如果改了系统id就修改回来</code></pre><ol>
+<li><code>umount /mnt/lvm /mnt/thin /mnt/snap</code></li>
+<li><code>lvs irenevg</code></li>
+<li><code>lvremove /dev/irenevg/irenethin1 /dev/irenevg/irenepool</code></li>
+<li><code>lvremove /dev/irenevg/irenelv</code></li>
+<li><code>vgchange -a n irenevg</code></li>
+<li><code>vgremove irenevg</code></li>
+<li><code>pvremove /dev/sdb{1,2,3,4}</code></li>
+<li><code>gdisk /dev/sdb</code> 把8E00改回8300,就完成了,如果没做这一步就不用了</li>
+</ol>
+<h3 id="使用SSM工具创建可动态扩容的存储池"><a href="#使用SSM工具创建可动态扩容的存储池" class="headerlink" title="使用SSM工具创建可动态扩容的存储池"></a>使用SSM工具创建可动态扩容的存储池</h3><ol>
+<li><code>yum -y install system-storage-manager</code>首先安装ssm工具</li>
+<li><code>ssm list dev</code>查看磁盘信息</li>
+<li><code>ssm list pool</code>存储池的信息</li>
+<li><code>mkdir /mnt/ssm</code></li>
+<li><code>ssm create -s 1G -n ssmlv --fstype xfs -p ssmvg /dev/sdb{1,2,3,4} /mnt/ssm</code> 意思是:ssm create -s lv大小 -n lv名称 –fstype lv文件系统类型 -p 卷组名 设备 挂载点</li>
+<li><code>ssm add -p ssmvg /dev/sdb5</code>将物理磁盘添加到卷组中</li>
+<li><code>ssm resize -s +500M /dev/ssmvg/ssmlv</code>扩大LVM卷的容量</li>
+<li><code>ssm snapshot /dev/ssmvg/ssmlv</code>对LVM卷的快照功能</li>
+<li><code>ssm remove /dev/ssmvg/ssmlv</code>删除LVM卷</li>
+<li><code>ssm remove ssmvg</code>删除卷组<blockquote>
+<p>更多的用法就不详细讲了,可以自行查阅资料来补充</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><strong>&lt;&lt;鸟哥的Linux私房菜&gt;&gt;</strong> 和 <strong>&lt;&lt;学神IT&gt;&gt;</strong></p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>LVM使用</tag>
       </tags>
   </entry>
   <entry>
