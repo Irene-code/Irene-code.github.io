@@ -1,65 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>DenyHosts使用</title>
-    <url>/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="DenyHosts简介"><a href="#DenyHosts简介" class="headerlink" title="DenyHosts简介"></a>DenyHosts简介</h2><pre><code>DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到/etc/hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是/var/log/secure,它也是由python编写的程序软件。</code></pre><a id="more"></a>
-
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><blockquote>
-<p><a href="https://sourceforge.net/projects/denyhosts/files/" target="_blank" rel="noopener">https://sourceforge.net/projects/denyhosts/files/</a></p>
-<blockquote>
-<p>下载之后上传到linux上</p>
-</blockquote>
-</blockquote>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
-<li><code>tar -zxvf DenyHosts-2.6.tar.gz</code> 解压 </li>
-<li><code>cd DenyHosts-2.6.tar.gz</code> 进到目录里安装</li>
-<li><code>python setup.py install</code> 安装</li>
-<li><code>cd /usr/share/denyhosts/</code> 默认安装在这里</li>
-<li><code>cp denyhosts.cfg-dist denyhosts.cfg</code> 配置文件 </li>
-<li><code>cp daemon-control-dist daemon-control</code> 这个是启动程序</li>
-<li><code>chown root daemon-control</code> 把所有者改为root</li>
-<li><code>chmod 700 daemon-control</code> 修改权限</li>
-<li><code>ln -s /usr/share/denyhosts/daemon-control /etc/init.d</code> 建立软连接</li>
-<li><code>/etc/init.d/daemon-control start</code> 启动denyhosts程序</li>
-<li><code>chkconfig daemon-control on</code> 设为开机自启</li>
-</ol>
-<h3 id="编辑DenyHosts配置文件"><a href="#编辑DenyHosts配置文件" class="headerlink" title="编辑DenyHosts配置文件"></a>编辑DenyHosts配置文件</h3><p><code>vim /usr/share/denyhosts/denyhosts.cfg</code></p>
-<ul>
-<li>HOSTS_DENY = /etc/hosts.deny  这个控制用户登录的文件</li>
-<li>PURGE_DENY = 30m 意思是过多后才清除已经禁止的,这里是30分钟</li>
-<li>DENY_THRESHOLD_INVALID = 1 允许无效用户失败次数</li>
-<li>DENY_THRESHOLD_VALID = 3 允许普通用户登录失败的次数</li>
-<li>DENY_THRESHOLD_ROOT = 3 允许root登录失败的次数</li>
-<li>SECURE_LOG = /var/log/secure 前面所说的日志文件</li>
-<li>DAEMON_LOG = /var/log/denyhosts 默认日志文件存放的路径</li>
-</ul>
-<h3 id="编辑配置文件之后-重启服务就好了"><a href="#编辑配置文件之后-重启服务就好了" class="headerlink" title="编辑配置文件之后,重启服务就好了"></a>编辑配置文件之后,重启服务就好了</h3><pre><code>/etc/init.d/daemon-control restart 重启
-/etc/init.d/daemon-control status  查看状态</code></pre>]]></content>
-      <tags>
-        <tag>安全防范</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/03/12/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<a id="more"></a>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Docker安装</title>
     <url>/2020/04/26/Docker%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h3 id="Docker虚拟化技术的概念"><a href="#Docker虚拟化技术的概念" class="headerlink" title="Docker虚拟化技术的概念"></a>Docker虚拟化技术的概念</h3><pre><code>1. Docker是一款轻量级、高性能的虚拟化技术，是目前互联网使用最多的虚拟化技术，Docker虚拟化技术的本质类似集装箱机制，最早集装箱没有出现的时候，码头上有许多搬运的工人在搬运货物，集装箱出现以后，码头上看到更多的不是工人，而且集装箱的搬运模式更加单一，更加高效，还有其他的好处。
@@ -209,6 +150,46 @@ n,+n(如2,+3表示2到5行)，.当前行，$最后一行(.,$-1 表示当前行�
 ]]></content>
       <tags>
         <tag>vim命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DenyHosts使用</title>
+    <url>/2020/03/17/DenyHosts%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="DenyHosts简介"><a href="#DenyHosts简介" class="headerlink" title="DenyHosts简介"></a>DenyHosts简介</h2><pre><code>DenyHOsts是一种运行在linux上防止SSH暴力破解的软件,当别人尝试破解你的密码而进行对次重复攻击时,它会将该ip记录到/etc/hosts.deny,从而达到自动屏蔽IP,并且可以自己设定失败多少次后将禁止登录,它分析sshd的日志文件是/var/log/secure,它也是由python编写的程序软件。</code></pre><a id="more"></a>
+
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><blockquote>
+<p>下载后上传到linux上, <a href="https://sourceforge.net/projects/denyhosts/files/" target="_blank" rel="noopener">请点击此处下载</a></p>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><code>tar -zxvf DenyHosts-2.6.tar.gz</code> 解压 </li>
+<li><code>cd DenyHosts-2.6.tar.gz</code> 进到目录里安装</li>
+<li><code>python setup.py install</code> 安装</li>
+<li><code>cd /usr/share/denyhosts/</code> 默认安装在这里</li>
+<li><code>cp denyhosts.cfg-dist denyhosts.cfg</code> 配置文件 </li>
+<li><code>cp daemon-control-dist daemon-control</code> 这个是启动程序</li>
+<li><code>chown root daemon-control</code> 把所有者改为root</li>
+<li><code>chmod 700 daemon-control</code> 修改权限</li>
+<li><code>ln -s /usr/share/denyhosts/daemon-control /etc/init.d</code> 建立软连接</li>
+<li><code>/etc/init.d/daemon-control start</code> 启动denyhosts程序</li>
+<li><code>chkconfig daemon-control on</code> 设为开机自启</li>
+</ol>
+<h3 id="编辑DenyHosts配置文件"><a href="#编辑DenyHosts配置文件" class="headerlink" title="编辑DenyHosts配置文件"></a>编辑DenyHosts配置文件</h3><p><code>vim /usr/share/denyhosts/denyhosts.cfg</code></p>
+<ul>
+<li>HOSTS_DENY = /etc/hosts.deny  这个控制用户登录的文件</li>
+<li>PURGE_DENY = 30m 意思是过多后才清除已经禁止的,这里是30分钟</li>
+<li>DENY_THRESHOLD_INVALID = 1 允许无效用户失败次数</li>
+<li>DENY_THRESHOLD_VALID = 3 允许普通用户登录失败的次数</li>
+<li>DENY_THRESHOLD_ROOT = 3 允许root登录失败的次数</li>
+<li>SECURE_LOG = /var/log/secure 前面所说的日志文件</li>
+<li>DAEMON_LOG = /var/log/denyhosts 默认日志文件存放的路径</li>
+</ul>
+<h3 id="编辑配置文件之后-重启服务就好了"><a href="#编辑配置文件之后-重启服务就好了" class="headerlink" title="编辑配置文件之后,重启服务就好了"></a>编辑配置文件之后,重启服务就好了</h3><pre><code>/etc/init.d/daemon-control restart 重启
+/etc/init.d/daemon-control status  查看状态</code></pre>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>安全防范</tag>
       </tags>
   </entry>
   <entry>
@@ -385,5 +366,24 @@ gdisk /dev/sdb 分区
       <tags>
         <tag>linux爱好者</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/03/12/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<a id="more"></a>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
   </entry>
 </search>
