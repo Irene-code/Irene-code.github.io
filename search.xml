@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Docker案例CentOS+LAMP+Discuz门户实战</title>
+    <url>/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h3><pre><code>基于Docker虚拟化平台，构建一台CentOS云主机，云主机服务器默认开启80、22端口，用户通过远程工具CRT、XSHELL能够远程登录CentOS云主机</code></pre><a id="more"></a>
+
+<h3 id="操作的方法和步骤如下"><a href="#操作的方法和步骤如下" class="headerlink" title="操作的方法和步骤如下:"></a>操作的方法和步骤如下:</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.在Docker官方仓库中搜索CentOS镜像:</span><br><span class="line">docker search centos</span><br><span class="line"></span><br><span class="line">2.从Docker官方仓库下载CentOS镜像:</span><br><span class="line">docker pull ansible&#x2F;centos7-ansible</span><br><span class="line"></span><br><span class="line">3.查看已下载CentOS镜像文件和列表:</span><br><span class="line">ls -l &#x2F;var&#x2F;lib&#x2F;docker&#x2F;image&#x2F;</span><br><span class="line">docker images</span><br><span class="line">docker images|grep -i centos</span><br></pre></td></tr></table></figure>
+<img src="/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/see.jpg" class title="赞">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">4.基于CentOS镜像启动CentOS云主机服务器</span><br><span class="line">docker run -itd --name&#x3D;irene-vm001 --privileged -p 80:80 -p 6022:22 ansible&#x2F;centos7-ansible</span><br><span class="line"></span><br><span class="line">5.查看已启动CentOS云主机的状态和IP地址</span><br><span class="line">docker ps</span><br><span class="line">docker inspect irene-vm001 | grep -i ipaddr|tail -1</span><br></pre></td></tr></table></figure>
+<img src="/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/irenevm.jpg" class title="赞">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">6.登录后打开6022端口</span><br><span class="line">dcker exec -it irene-vm001 &#x2F;bin&#x2F;bash</span><br><span class="line">yum install net-tools -y</span><br><span class="line">yum install openssh-server -y</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line">7.进到宿主机把ssh下的文件复制过来</span><br><span class="line">cd &#x2F;etc&#x2F;ssh</span><br><span class="line">tar czvf ssh.tar *</span><br><span class="line">docker cp ssh.tar 7d9655b03816:&#x2F;etc&#x2F;ssh</span><br><span class="line">docker exec -it irene-vm001 &#x2F;bin&#x2F;bash</span><br><span class="line">cd &#x2F;etc&#x2F;ssh</span><br><span class="line">tar -xf ssh.tar</span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;sshd</span><br><span class="line"></span><br><span class="line">8.在云主机修改密码,用远程工具连接</span><br><span class="line">docker exec -it irene-vm001 &#x2F;bin&#x2F;bash</span><br><span class="line">passwd</span><br></pre></td></tr></table></figure>
+<img src="/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/sshd.jpg" class title="赞">
+<blockquote>
+<img src="/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/login.jpg" class title="赞">
+<blockquote>
+<img src="/2020/05/25/Docker%E6%A1%88%E4%BE%8BCentOS-LAMP-Discuz%E9%97%A8%E6%88%B7%E5%AE%9E%E6%88%98/logins.jpg" class title="赞"></blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker容器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker案例nginx+tomcat负载均衡集群</title>
     <url>/2020/05/23/Docker%E6%A1%88%E4%BE%8Bnginx-tomcat%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%9B%86%E7%BE%A4/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h3><p>基于Docker虚拟化平台，构建一套Nginx、Tomcat WEB容器，要求Nginx容器默认启动80端口服务，而且Tomcat WEB容器启动8080服务，最终实现Nginx负载均衡Tomcat容器集群&amp;动静分离、Rewrite规则。</p>
