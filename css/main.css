@@ -1168,7 +1168,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #208e9e;
+  background: #bdffff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2270,7 +2270,7 @@ ul.breadcrumb li + li:last-child {
   margin: auto;
 }
 body {
-  background: url("https://i.loli.net/2020/05/22/KOdLB16YnURaDi8.jpg");
+  background: url("../../images/back.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
@@ -2285,7 +2285,7 @@ body #footer > div > div {
   color: #000;
 }
 body .footer-inner {
-  color: #ff0;
+  color: #57c7f1;
 }
 .main-inner {
   padding: 0.5em;
@@ -2311,7 +2311,7 @@ body .footer-inner {
   background: transparent;
 }
 .menu {
-  margin-top: 1em;
+  margin-top: 2em;
   padding-left: 0;
   text-align: center;
   background: rgba(0,0,0,0.5);
@@ -2375,14 +2375,11 @@ element.style {
   color: #fff;
 }
 .btn:hover {
-  border-color: #f00;
-  color: #222;
-  background: #fff;
-}
-.use-motion .post-block,
-.use-motion .pagination,
-.use-motion .comments {
-  opacity: 0;
+  display: block;
+  border-color: #f8d1d1;
+  font-size: 18px;
+  color: #f00;
+  background: #f8d1d1;
 }
 .posts-expand .post-eof {
   margin: 4em auto 4em;
@@ -2458,6 +2455,10 @@ span.exturl:hover {
   border-bottom: none;
 }
 .btn {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
   margin-top: 2em;
 }
 .back-to-top {
